@@ -1,9 +1,10 @@
 mod helpers;
+use bencher::benchmark_main;
 
 mod bench {
 
-    use bencher::Bencher;
-    use helpers::*;
+    use bencher::{benchmark_group, Bencher};
+    use crate::helpers::*;
     use kzen_paillier::*;
 
     pub fn bench_key_generation<KS: KeySize>(b: &mut Bencher) {

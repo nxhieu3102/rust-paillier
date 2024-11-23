@@ -1,4 +1,5 @@
 mod helpers;
+use bencher::benchmark_main;
 
 mod bench {
 
@@ -6,7 +7,7 @@ mod bench {
     use kzen_paillier::proof::CorrectKey;
     use kzen_paillier::*;
 
-    use helpers::*;
+    use crate::helpers::*;
 
     pub fn bench_zk_proof_challenge<KS: KeySize>(b: &mut Bencher) {
         let (ek, _dk) = KS::keypair().keys();
