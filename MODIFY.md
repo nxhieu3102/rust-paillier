@@ -24,6 +24,8 @@
     * test
     * benchmarks
     * example
+* ERROR:
+    * `is_prime` always returns `false`???
 
 ## Init Optimized Paillier (lib)
 * Date: 24/11/2024

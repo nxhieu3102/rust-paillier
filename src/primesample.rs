@@ -371,3 +371,25 @@ static SMALL_PRIMES: [u32; 2048] = [
     17609, 17623, 17627, 17657, 17659, 17669, 17681, 17683, 17707, 17713, 17729,
     17737, 17747, 17749, 17761, 17783, 17789, 17791, 17807, 17827, 17837, 17839,
     17851, 17863 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // #[test]
+    // fn test_is_prime() {
+    //     assert_eq!(false, is_prime(&BigInt::from(1)));
+    //     assert_eq!(false, is_prime(&BigInt::from(4)));
+    //     assert_eq!(false, is_prime(&BigInt::from(6)));
+    //     assert_eq!(false, is_prime(&BigInt::from(15)));
+    //     assert_eq!(false, is_prime(&BigInt::from(24)));
+
+    //     let bigint = BigInt::from(17791);
+    //     println!("{}", bigint);
+    //     assert_eq!(true, is_prime(&bigint));
+    //     assert_eq!(true, is_prime(&BigInt::from(2)));
+    //     assert_eq!(true, is_prime(&BigInt::from(5)));
+    //     assert_eq!(true, is_prime(&BigInt::from(11)));
+    //     assert_eq!(true, is_prime(&BigInt::from(29)));
+    // }
+}
