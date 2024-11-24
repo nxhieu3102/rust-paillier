@@ -65,38 +65,38 @@ path = "examples/paillier/simple-voting.rs"
 
 # # benchmark
 # [[bench]]
-# name = "optimized_arith"
+# name = "optimized-arith"
 # harness = false
 # path = "benches/optimized_paillier/arith.rs"
 
 # [[bench]]
-# name = "optimized_encryption"
+# name = "optimized-encryption"
 # harness = false
 # path = "benches/optimized_paillier/encryption.rs"
 
 # [[bench]]
-# name = "optimized_keygen"
+# name = "optimized-keygen"
 # harness = false
 # path = "benches/optimized_paillier/keygen.rs"
 
 # [[bench]]
-# name = "optimized_proof"
+# name = "optimized-proof"
 # harness = false
 # path = "benches/optimized_paillier/proof.rs"
 
-# # examples
-# [[example]]
-# name = "optimized_basic"
-# path = "examples/optimized_paillier/basic.rs"
+# examples
+[[example]]
+name = "optimized-basic"
+path = "examples/optimized_paillier/basic.rs"
+
+[[example]]
+name = "optimized-core"
+path = "examples/optimized_paillier/core.rs"
 
 # [[example]]
-# name = "optimized_core"
-# path = "examples/optimized_paillier/core.rs"
-
-# [[example]]
-# name = "optimized_packed"
+# name = "optimized-packed"
 # path = "examples/optimized_paillier/packed.rs"
 
 # [[example]]
-# name = "optimized_simple-voting"
+# name = "optimized-simple-voting"
 # path = "examples/optimized_paillier/simple-voting.rs"

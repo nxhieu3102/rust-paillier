@@ -90,6 +90,36 @@ impl<'b> From<RawCiphertext<'b>> for BigInt {
 }
 
 // --------------------------
+
+// impl Serialize for EncryptionKey {
+//     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+//         let minimal = MinimalEncryptionKey::from(self);
+//         minimal.serialize(serializer)
+//     }
+// }
+
+// impl<'de> Deserialize<'de> for EncryptionKey {
+//     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+//         let minimal = MinimalEncryptionKey::deserialize(deserializer)?;
+//         Ok(EncryptionKey::from(minimal))
+//     }
+// }
+
+// impl Serialize for DecryptionKey {
+//     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+//         let minimal = MinimalDecryptionKey::from(self);
+//         minimal.serialize(serializer)
+//     }
+// }
+
+// impl<'de> Deserialize<'de> for DecryptionKey {
+//     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+//         let minimal = MinimalDecryptionKey::deserialize(deserializer)?;
+//         Ok(DecryptionKey::from(minimal))
+//     }
+// }
+
+// --------------------------
 // internal functions, will be used in encoding/integral
 // execute on raw plaintext and raw ciphertext
 
