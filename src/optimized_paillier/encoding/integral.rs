@@ -1,5 +1,7 @@
 // support plaintext/ciphertext in u64
-use std::borrow::Borrow;
+use std::{borrow::Borrow, marker::PhantomData};
+
+use std::convert::TryFrom;
 
 use super::EncodedCiphertext;
 use crate::optimized_paillier::*;
@@ -10,19 +12,12 @@ where
     for<'p, 'c> Self: Encrypt<EK, RawPlaintext<'p>, RawCiphertext<'c>>,
 {
     fn encrypt(ek: &EK, m: u64) -> EncodedCiphertext<u64> {
-        todo!()
-    }
-}
-
-// convert ciphertext into other ciphertext
-// by changing the random value
-impl<EK, C> Rerandomize<EK, C, EncodedCiphertext<u64>> for OptimizedPaillier
-where
-    for<'c, 'd> Self: Rerandomize<EK, RawCiphertext<'c>, RawCiphertext<'d>>,
-    C: Borrow<EncodedCiphertext<u64>>,
-{
-    fn rerandomize(ek: &EK, c: C) -> EncodedCiphertext<u64> {
-        todo!()
+        let c = Self::encrypt(ek, RawPlaintext::from(BigInt::from(m)));
+        EncodedCiphertext {
+            raw: c.into(),
+            components: 1,
+            _phantom: PhantomData,
+        }
     }
 }
 
@@ -33,7 +28,8 @@ where
     C: Borrow<EncodedCiphertext<u64>>,
 {
     fn decrypt(dk: &DK, c: C) -> u64 {
-        todo!()
+        let m = Self::decrypt(dk, RawCiphertext::from(&c.borrow().raw));
+        u64::try_from(&BigInt::from(m)).unwrap()
     }
 }
 
@@ -45,7 +41,16 @@ where
     C2: Borrow<EncodedCiphertext<u64>>,
 {
     fn add(ek: &EK, c1: C1, c2: C2) -> EncodedCiphertext<u64> {
-        todo!()
+        let d = Self::add(
+            ek,
+            RawCiphertext::from(&c1.borrow().raw),
+            RawCiphertext::from(&c2.borrow().raw),
+        );
+        EncodedCiphertext {
+            raw: d.into(),
+            components: 1,
+            _phantom: PhantomData,
+        }
     }
 }
 
@@ -56,7 +61,16 @@ where
     C: Borrow<EncodedCiphertext<u64>>,
 {
     fn add(ek: &EK, c: C, p: u64) -> EncodedCiphertext<u64> {
-        todo!()
+        let d = Self::add(
+            ek,
+            RawCiphertext::from(&c.borrow().raw),
+            RawPlaintext::from(BigInt::from(p)),
+        );
+        EncodedCiphertext {
+            raw: d.into(),
+            components: 1,
+            _phantom: PhantomData,
+        }
     }
 }
 
@@ -67,7 +81,16 @@ where
     C2: Borrow<EncodedCiphertext<u64>>,
 {
     fn add(ek: &EK, m1: u64, c2: C2) -> EncodedCiphertext<u64> {
-        todo!()
+        let d = Self::add(
+            ek,
+            RawPlaintext::from(BigInt::from(m1)),
+            RawCiphertext::from(&c2.borrow().raw),
+        );
+        EncodedCiphertext {
+            raw: d.into(),
+            components: 1,
+            _phantom: PhantomData,
+        }
     }
 }
 
@@ -78,10 +101,18 @@ where
     C: Borrow<EncodedCiphertext<u64>>,
 {
     fn mul(ek: &EK, c: C, m: u64) -> EncodedCiphertext<u64> {
-        todo!()
+        let d = Self::mul(
+            ek,
+            RawCiphertext::from(&c.borrow().raw),
+            RawPlaintext::from(BigInt::from(m)),
+        );
+        EncodedCiphertext {
+            raw: d.into(),
+            components: 1,
+            _phantom: PhantomData,
+        }
     }
 }
-
 
 // plaintext * ciphertext1 --> ciphertext2 (in u64)
 impl<EK, C> Mul<EK, u64, C, EncodedCiphertext<u64>> for OptimizedPaillier
@@ -90,7 +121,16 @@ where
     C: Borrow<EncodedCiphertext<u64>>,
 {
     fn mul(ek: &EK, m: u64, c: C) -> EncodedCiphertext<u64> {
-        todo!()
+        let d = Self::mul(
+            ek,
+            RawPlaintext::from(BigInt::from(m)),
+            RawCiphertext::from(&c.borrow().raw),
+        );
+        EncodedCiphertext {
+            raw: d.into(),
+            components: 1,
+            _phantom: PhantomData,
+        }
     }
 }
 

@@ -165,6 +165,21 @@ fn rewrite(n: &BigInt) -> (BigInt, BigInt) {
     (s, d)
 }
 
+pub fn check_coprime(nums: &[&BigInt]) -> bool {
+    // check if all elements are co-prime with each other
+    let n = nums.len();
+    for i in 0..n {
+        for j in i + 1..n {
+            // Calculate GCD of vector[i] and vector[j]
+            let gcd = nums[i].gcd(&nums[j]);
+            if gcd != BigInt::one() {
+                return false; // If GCD is not 1, the numbers are not coprime
+            }
+        }
+    }
+    true
+}
+
 // BoringSSL's table.
 // https://boringssl.googlesource.com/boringssl/+/master/crypto/bn/prime.c
 #[rustfmt::skip]

@@ -18,6 +18,13 @@
         * `cargo run --example simple-voting`: passed
 * Optimized Paillier (empty)
 
+## Implementation
+* DONE: key gen, encrypt, decrypt, add, mul 
+* TODO:
+    * test
+    * benchmarks
+    * example
+
 ## Init Optimized Paillier (lib)
 * Date: 24/11/2024
 * lib directory: `src/optimized_paillier`

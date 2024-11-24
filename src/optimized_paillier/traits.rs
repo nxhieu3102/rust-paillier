@@ -4,16 +4,16 @@
 pub trait KeyGeneration<NG> {
     /// Generate fresh NGen with currently recommended security level (2048 bit modulus).
     fn ngen() -> NG {
-        Self::ngen_with_modulus_size(2048)
+        Self::ngen_with_modulus_size(2048, 448)
     }
     fn ngen_safe_primes() -> NG {
-        Self::ngen_safe_primes_with_modulus_size(2048)
+        Self::ngen_safe_primes_with_modulus_size(2048, 448)
     }
     /// Generate fresh NGen with security level specified as the `bit_length` of the modulus.
     ///
     /// Currently recommended security level is a minimum of 2048 bits.
-    fn ngen_with_modulus_size(big_length: usize) -> NG;
-    fn ngen_safe_primes_with_modulus_size(big_length: usize) -> NG;
+    fn ngen_with_modulus_size(n_bit_length: usize, alpha_bit_length: usize) -> NG;
+    fn ngen_safe_primes_with_modulus_size(n_bit_length: usize, alpha_bit_length: usize) -> NG;
 }
 
 pub trait PrecomputeRandomness<EK, R, PR> {

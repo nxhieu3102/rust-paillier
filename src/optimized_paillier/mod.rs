@@ -17,6 +17,7 @@ pub struct OptimizedPaillier;
 
 // values to compute public and secret key
 pub struct NGen {
+    pub alpha_size: usize, // bit size of alpha, generate random for encryption
     pub n: BigInt, // n = p * q
     pub p: BigInt, // first prime
     pub q: BigInt, // second prime
@@ -26,14 +27,18 @@ pub struct NGen {
 
 // public key
 pub struct EncryptionKey {
+    pub alpha_size: usize, // bit size of alpha
     pub n: BigInt, // n = p * q
     pub nn: BigInt, // n = n * n
     pub h: BigInt, // generator h = -y^(2*beta) mod n
+    pub hn: BigInt, // pre-compute h^n mod n^2
 }
 
 // secret key
 pub struct DecryptionKey {
     pub alpha: BigInt, // alpha = div_p * div_q
+    pub n: BigInt, // n = p * q
+    pub nn: BigInt, // nn = n * n
 }
 
 /// Unencrypted message without type information.
