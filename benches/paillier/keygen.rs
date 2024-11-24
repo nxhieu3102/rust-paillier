@@ -4,8 +4,8 @@ use bencher::benchmark_main;
 mod bench {
 
     use bencher::{benchmark_group, Bencher};
+    use kzen_paillier::{paillier::Paillier, traits::KeyGeneration};
     use crate::helpers::*;
-    use kzen_paillier::*;
 
     pub fn bench_key_generation<KS: KeySize>(b: &mut Bencher) {
         b.iter(|| {

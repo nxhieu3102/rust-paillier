@@ -3,7 +3,7 @@
 use curv::arithmetic::traits::*;
 
 use crate::traits::*;
-use crate::{BigInt, Keypair, Paillier};
+use crate::paillier::{BigInt, Keypair, Paillier};
 
 impl KeyGeneration<Keypair> for Paillier {
     fn keypair_with_modulus_size(bit_length: usize) -> Keypair {

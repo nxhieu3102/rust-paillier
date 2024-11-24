@@ -1,7 +1,7 @@
 use bencher::{benchmark_group, benchmark_main, Bencher};
 use curv::arithmetic::traits::*;
 
-use kzen_paillier::*;
+use kzen_paillier::BigInt;
 
 mod helpers;
 use helpers::*;

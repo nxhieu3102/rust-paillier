@@ -21,30 +21,82 @@ rand = "0.6"
 [features]
 default = ["curv-kzen/rust-gmp-kzen"]
 
+######### Paillier 
+
+# benchmark
 [[bench]]
 name = "arith"
 harness = false
+path = "benches/paillier/arith.rs"
 
 [[bench]]
 name = "encryption"
 harness = false
+path = "benches/paillier/encryption.rs"
 
 [[bench]]
 name = "keygen"
 harness = false
+path = "benches/paillier/keygen.rs"
 
 [[bench]]
 name = "proof"
 harness = false
+path = "benches/paillier/proof.rs"
 
+# examples
 [[example]]
 name = "basic"
+path = "examples/paillier/basic.rs"
 
 [[example]]
 name = "core"
+path = "examples/paillier/core.rs"
 
 [[example]]
 name = "packed"
+path = "examples/paillier/packed.rs"
 
 [[example]]
 name = "simple-voting"
+path = "examples/paillier/simple-voting.rs"
+
+# ######### Optimized Paillier 
+
+# # benchmark
+# [[bench]]
+# name = "optimized_arith"
+# harness = false
+# path = "benches/optimized_paillier/arith.rs"
+
+# [[bench]]
+# name = "optimized_encryption"
+# harness = false
+# path = "benches/optimized_paillier/encryption.rs"
+
+# [[bench]]
+# name = "optimized_keygen"
+# harness = false
+# path = "benches/optimized_paillier/keygen.rs"
+
+# [[bench]]
+# name = "optimized_proof"
+# harness = false
+# path = "benches/optimized_paillier/proof.rs"
+
+# # examples
+# [[example]]
+# name = "optimized_basic"
+# path = "examples/optimized_paillier/basic.rs"
+
+# [[example]]
+# name = "optimized_core"
+# path = "examples/optimized_paillier/core.rs"
+
+# [[example]]
+# name = "optimized_packed"
+# path = "examples/optimized_paillier/packed.rs"
+
+# [[example]]
+# name = "optimized_simple-voting"
+# path = "examples/optimized_paillier/simple-voting.rs"

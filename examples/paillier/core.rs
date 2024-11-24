@@ -1,4 +1,6 @@
-use kzen_paillier::*;
+use kzen_paillier::BigInt;
+use kzen_paillier::paillier::{Paillier, RawPlaintext};
+use kzen_paillier::traits::{Add, Decrypt, Encrypt, KeyGeneration, Mul};
 
 fn main() {
     // generate a fresh keypair

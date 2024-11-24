@@ -6,10 +6,11 @@ use rayon::join;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use crate::traits::*;
-use crate::{
-    BigInt, DecryptionKey, EncryptionKey, Keypair, MinimalDecryptionKey, MinimalEncryptionKey,
+use crate::paillier::{
+    DecryptionKey, EncryptionKey, Keypair, MinimalDecryptionKey, MinimalEncryptionKey,
     Paillier, RawCiphertext, RawPlaintext,
 };
+use crate::BigInt;
 use curv::arithmetic::traits::*;
 
 impl Keypair {
@@ -232,6 +233,10 @@ impl<'m, 'r, 'd>
     }
 }
 
+// VY: why encrypt with decryption key?
+// DecryptionKey(p,q) is private, EncryptionKey(n,n^2) is public
+// Everyone can encrypt message with EncryptionKey
+// Key owner can encrypt message faster with DecryptionKey by apply CRT
 impl<'m, 'd> Encrypt<DecryptionKey, RawPlaintext<'m>, RawCiphertext<'d>> for Paillier {
     fn encrypt(dk: &DecryptionKey, m: RawPlaintext<'m>) -> RawCiphertext<'d> {
         let dk_pp = &dk.p * &dk.p;
