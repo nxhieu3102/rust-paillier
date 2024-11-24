@@ -18,7 +18,18 @@
         * `cargo run --example simple-voting`: passed
 * Optimized Paillier (empty)
 
-## Restructure
+## Init Optimized Paillier (lib)
+* Date: 24/11/2024
+* lib directory: `src/optimized_paillier`
+* `mod.rs`: declare sub-modules and structs
+* `traits.rs`: interfaces for Optimized Paillier (don't need to read)
+* [TODO] `core/`: internal functions, which execute on raw plaintext and ciphertext (`BigInt`)
+* [TODO] `keygen.rs`: entry point of key generation
+* [TODO] `encoding/integral.rs`: entry point of get key, encrypt, decrypt, add, mul... features; use functions in `core/` 
+
+> Many functions are unimplemented, so `cargo build` will raise many warnings. You don't need to fix them :>
+
+## Restructure `kzen` project
 * Date: 24/11/2024
 * Restructure the kzen lib to add Optimized Paillier
 * `traits` and `serialize` are common components
