@@ -5,8 +5,7 @@ use std::convert::TryFrom;
 use std::marker::PhantomData;
 
 use super::{pack, unpack, EncodedCiphertext};
-use crate::traits::{Add, Decrypt, Encrypt, Mul, Rerandomize};
-use crate::paillier::{Paillier, RawCiphertext, RawPlaintext};
+use crate::paillier::*;
 use crate::BigInt;
 
 impl<EK> Encrypt<EK, u64, EncodedCiphertext<u64>> for Paillier

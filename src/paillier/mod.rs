@@ -2,10 +2,12 @@
 pub mod core;
 pub mod encoding;
 pub mod keygen;
+pub mod traits;
 
 pub use self::core::*;
 pub use encoding::*;
 pub use keygen::*;
+pub use traits::*;
 
 use std::borrow::Cow;
 

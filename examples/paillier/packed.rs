@@ -1,5 +1,4 @@
-use kzen_paillier::paillier::Paillier;
-use kzen_paillier::traits::{Add, Decrypt, Encrypt, KeyGeneration, Mul};
+use kzen_paillier::paillier::*;
 
 fn main() {
     let (ek, dk) = Paillier::keypair().keys();

@@ -1,5 +1,4 @@
-use kzen_paillier::paillier::Paillier;
-use kzen_paillier::traits::{Add, Decrypt, Encrypt, KeyGeneration, Mul, Rerandomize};
+use kzen_paillier::paillier::*;
 
 fn main() {
     // first generate a fresh keypair, where

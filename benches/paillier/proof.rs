@@ -5,7 +5,7 @@ mod bench {
 
     use bencher::*;
     use kzen_paillier::proof::CorrectKey;
-    use kzen_paillier::*;
+    use kzen_paillier::paillier::*;
 
     use crate::helpers::*;
 
