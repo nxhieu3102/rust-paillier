@@ -1,5 +1,5 @@
 use curv::arithmetic::Samplable;
-
+use curv::arithmetic::traits::*;
 use crate::optimized_paillier::traits::KeyGeneration;
 
 use super::{NGen, OptimizedPaillier};
@@ -17,8 +17,12 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
             let div_q = BigInt::sample_prime(alpha_bit_length / 2);
 
             let other_bit_length = (n_bit_length - alpha_bit_length) / 2 - 1;
-            let other_div_p = BigInt::sample(other_bit_length);
-            let other_div_q = BigInt::sample(other_bit_length);
+            let mut other_div_p = BigInt::sample(other_bit_length);
+            let mut other_div_q = BigInt::sample(other_bit_length);
+
+            // We flip the LSB to make sure tue candidate is odd.
+            BigInt::set_bit(&mut other_div_p, 0, true);
+            BigInt::set_bit(&mut other_div_q, 0, true);
 
             let p = 2 * &div_p * &other_div_p + 1;
             let q = 2 * &div_q * &other_div_q + 1;
@@ -51,8 +55,12 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
             let div_q = BigInt::sample_safe_prime(alpha_bit_length / 2);
 
             let other_bit_length = (n_bit_length - alpha_bit_length) / 2 - 1;
-            let other_div_p = BigInt::sample(other_bit_length);
-            let other_div_q = BigInt::sample(other_bit_length);
+            let mut other_div_p = BigInt::sample(other_bit_length);
+            let mut other_div_q = BigInt::sample(other_bit_length);
+
+            // We flip the LSB to make sure tue candidate is odd.
+            BigInt::set_bit(&mut other_div_p, 0, true);
+            BigInt::set_bit(&mut other_div_q, 0, true);
 
             let p = 2 * &div_p * &other_div_p + 1;
             let q = 2 * &div_q * &other_div_q + 1;
