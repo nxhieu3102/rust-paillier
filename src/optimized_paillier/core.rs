@@ -222,7 +222,7 @@ mod tests {
 
     extern crate serde_json;
 
-    fn text_ngen() -> NGen {
+    fn test_ngen() -> NGen {
         todo!()
     }
 

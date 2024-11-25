@@ -77,6 +77,12 @@ pub fn are_all_primes(candidates: &[&BigInt]) -> bool {
     for &candidate in candidates {
         for &p in SMALL_PRIMES.iter() {
             let prime = BigInt::from(p);
+            if &prime == candidate {
+                return true;
+            } else if &prime > candidate {
+                break;
+            }
+            
             let r = candidate % &prime;
             if !NumberTests::is_zero(&r) {
                 continue;
@@ -108,6 +114,9 @@ pub fn is_prime(candidate: &BigInt) -> bool {
 /// Perform test based on Fermat's little theorem
 /// This might be performed more than once, see Handbook of Applied Cryptography [Algorithm 4.9 p136]
 fn fermat(candidate: &BigInt) -> bool {
+    // (a^(n-1) mod n) != 1 --> n is not a prime
+    // fermat = false   --> n is not a prime
+    // fermat = true    --> n MAYBE a prime
     let random = BigInt::sample_below(candidate);
     let result = BigInt::mod_pow(&random, &(candidate - &BigInt::one()), candidate);
 
@@ -375,21 +384,22 @@ static SMALL_PRIMES: [u32; 2048] = [
 #[cfg(test)]
 mod tests {
     use super::*;
+    use curv::arithmetic::*;
 
-    // #[test]
-    // fn test_is_prime() {
-    //     assert_eq!(false, is_prime(&BigInt::from(1)));
-    //     assert_eq!(false, is_prime(&BigInt::from(4)));
-    //     assert_eq!(false, is_prime(&BigInt::from(6)));
-    //     assert_eq!(false, is_prime(&BigInt::from(15)));
-    //     assert_eq!(false, is_prime(&BigInt::from(24)));
+    #[test]
+    fn test_is_prime() {
+        assert_eq!(false, is_prime(&BigInt::from(1)));
+        assert_eq!(false, is_prime(&BigInt::from(4)));
+        assert_eq!(false, is_prime(&BigInt::from(6)));
+        assert_eq!(false, is_prime(&BigInt::from(15)));
+        assert_eq!(false, is_prime(&BigInt::from(24)));
 
-    //     let bigint = BigInt::from(17791);
-    //     println!("{}", bigint);
-    //     assert_eq!(true, is_prime(&bigint));
-    //     assert_eq!(true, is_prime(&BigInt::from(2)));
-    //     assert_eq!(true, is_prime(&BigInt::from(5)));
-    //     assert_eq!(true, is_prime(&BigInt::from(11)));
-    //     assert_eq!(true, is_prime(&BigInt::from(29)));
-    // }
+        let bigint = BigInt::from(17791);
+        println!("{}", bigint);
+        assert_eq!(true, is_prime(&bigint));
+        assert_eq!(true, is_prime(&BigInt::from(2)));
+        assert_eq!(true, is_prime(&BigInt::from(5)));
+        assert_eq!(true, is_prime(&BigInt::from(11)));
+        assert_eq!(true, is_prime(&BigInt::from(29)));
+    }
 }
