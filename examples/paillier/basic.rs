@@ -1,4 +1,4 @@
-use kzen_paillier::*;
+use kzen_paillier::paillier::*;
 
 fn main() {
     // first generate a fresh keypair, where

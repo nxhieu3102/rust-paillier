@@ -1,4 +1,5 @@
-use kzen_paillier::*;
+use kzen_paillier::BigInt;
+use kzen_paillier::paillier::*;
 
 fn main() {
     // generate a fresh keypair

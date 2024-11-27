@@ -5,8 +5,8 @@ use std::convert::TryFrom;
 use std::marker::PhantomData;
 
 use super::{pack, unpack, EncodedCiphertext};
-use crate::traits::{Add, Decrypt, Encrypt, Mul, Rerandomize};
-use crate::{BigInt, Paillier, RawCiphertext, RawPlaintext};
+use crate::paillier::*;
+use crate::BigInt;
 
 impl<EK> Encrypt<EK, u64, EncodedCiphertext<u64>> for Paillier
 where
@@ -149,6 +149,10 @@ where
 //     }
 // }
 
+// VY: differencies between `EncodedCiphertext<Vec<u64>>` and `EncodedCiphertext<u64>`
+// ciphertext is a big integer
+// which can be represent as a single u64
+// or (u64 || u64 || ... || u64) concat many u64 into a bigger one
 impl<EK, C> Add<EK, C, u64, EncodedCiphertext<u64>> for Paillier
 where
     for<'c, 'p, 'd> Self: Add<EK, RawCiphertext<'c>, RawPlaintext<'p>, RawCiphertext<'d>>,
@@ -320,7 +324,7 @@ mod tests {
     use curv::arithmetic::traits::*;
 
     use super::*;
-    use crate::Keypair;
+    use crate::paillier::Keypair;
 
     fn test_keypair() -> Keypair {
         let p = BigInt::from_str_radix("148677972634832330983979593310074301486537017973460461278300587514468301043894574906886127642530475786889672304776052879927627556769456140664043088700743909632312483413393134504352834240399191134336344285483935856491230340093391784574980688823380828143810804684752914935441384845195613674104960646037368551517", 10).unwrap();

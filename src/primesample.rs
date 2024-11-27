@@ -1,23 +1,6 @@
-//! Key generation following standard recommendations.
+use crate::BigInt;
 
 use curv::arithmetic::traits::*;
-
-use crate::traits::*;
-use crate::{BigInt, Keypair, Paillier};
-
-impl KeyGeneration<Keypair> for Paillier {
-    fn keypair_with_modulus_size(bit_length: usize) -> Keypair {
-        let p = BigInt::sample_prime(bit_length / 2);
-        let q = BigInt::sample_prime(bit_length / 2);
-        Keypair { p, q }
-    }
-
-    fn keypair_safe_primes_with_modulus_size(bit_length: usize) -> Keypair {
-        let p = BigInt::sample_safe_prime(bit_length / 2);
-        let q = BigInt::sample_safe_prime(bit_length / 2);
-        Keypair { p, q }
-    }
-}
 
 pub trait PrimeSampable {
     fn sample_prime(bitsize: usize) -> Self;
@@ -94,6 +77,12 @@ pub fn are_all_primes(candidates: &[&BigInt]) -> bool {
     for &candidate in candidates {
         for &p in SMALL_PRIMES.iter() {
             let prime = BigInt::from(p);
+            if &prime == candidate {
+                return true;
+            } else if &prime > candidate {
+                break;
+            }
+            
             let r = candidate % &prime;
             if !NumberTests::is_zero(&r) {
                 continue;
@@ -125,6 +114,9 @@ pub fn is_prime(candidate: &BigInt) -> bool {
 /// Perform test based on Fermat's little theorem
 /// This might be performed more than once, see Handbook of Applied Cryptography [Algorithm 4.9 p136]
 fn fermat(candidate: &BigInt) -> bool {
+    // (a^(n-1) mod n) != 1 --> n is not a prime
+    // fermat = false   --> n is not a prime
+    // fermat = true    --> n MAYBE a prime
     let random = BigInt::sample_below(candidate);
     let result = BigInt::mod_pow(&random, &(candidate - &BigInt::one()), candidate);
 
@@ -180,6 +172,21 @@ fn rewrite(n: &BigInt) -> (BigInt, BigInt) {
     }
 
     (s, d)
+}
+
+pub fn check_coprime(nums: &[&BigInt]) -> bool {
+    // check if all elements are co-prime with each other
+    let n = nums.len();
+    for i in 0..n {
+        for j in i + 1..n {
+            // Calculate GCD of vector[i] and vector[j]
+            let gcd = nums[i].gcd(&nums[j]);
+            if gcd != BigInt::one() {
+                return false; // If GCD is not 1, the numbers are not coprime
+            }
+        }
+    }
+    true
 }
 
 // BoringSSL's table.
@@ -373,3 +380,26 @@ static SMALL_PRIMES: [u32; 2048] = [
     17609, 17623, 17627, 17657, 17659, 17669, 17681, 17683, 17707, 17713, 17729,
     17737, 17747, 17749, 17761, 17783, 17789, 17791, 17807, 17827, 17837, 17839,
     17851, 17863 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use curv::arithmetic::*;
+
+    #[test]
+    fn test_is_prime() {
+        assert_eq!(false, is_prime(&BigInt::from(1)));
+        assert_eq!(false, is_prime(&BigInt::from(4)));
+        assert_eq!(false, is_prime(&BigInt::from(6)));
+        assert_eq!(false, is_prime(&BigInt::from(15)));
+        assert_eq!(false, is_prime(&BigInt::from(24)));
+
+        let bigint = BigInt::from(17791);
+        println!("{}", bigint);
+        assert_eq!(true, is_prime(&bigint));
+        assert_eq!(true, is_prime(&BigInt::from(2)));
+        assert_eq!(true, is_prime(&BigInt::from(5)));
+        assert_eq!(true, is_prime(&BigInt::from(11)));
+        assert_eq!(true, is_prime(&BigInt::from(29)));
+    }
+}

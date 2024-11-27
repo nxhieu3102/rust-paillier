@@ -1,9 +1,8 @@
 use bencher::{benchmark_group, benchmark_main, Bencher};
 
-use kzen_paillier::*;
-
 mod helpers;
 use helpers::*;
+use kzen_paillier::paillier::*;
 
 pub fn bench_encryption_ek<KS: KeySize>(b: &mut Bencher) {
     let keypair = KS::keypair();

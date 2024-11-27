@@ -1,7 +1,4 @@
-use kzen_paillier::{
-    Add, Decrypt, DecryptionKey, EncodedCiphertext, Encrypt, EncryptionKey, KeyGeneration,
-    Paillier, Rerandomize,
-};
+use kzen_paillier::paillier::*;
 
 fn main() {
     // first we initialize the clerk by asking it to generate a fresh keypair
