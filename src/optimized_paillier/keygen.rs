@@ -10,7 +10,6 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
         // TODO: set max loop
         let mut count = 0;
         loop {
-            println!("{count}");
             count += 1;
 
             let div_p = BigInt::sample_prime(alpha_bit_length / 2);
@@ -27,15 +26,19 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
             let p = 2 * &div_p * &other_div_p + 1;
             let q = 2 * &div_q * &other_div_q + 1;
 
-            println!("{}", are_all_primes(&[&p, &q]));
-            println!(
-                "{}",
-                check_coprime(&[&div_p, &div_q, &other_div_p, &other_div_q])
-            );
-
             if are_all_primes(&[&p, &q])
                 && check_coprime(&[&div_p, &div_q, &other_div_p, &other_div_q])
             {
+                println!("===========================================================");
+                println!("gen_time = {:?}", count);
+                println!("p = {:?}", p);
+                println!("q = {:?}", q);
+                println!("div_p = {:?}", div_p);
+                println!("div_q = {:?}", div_q);
+                println!("alpha_size = {:?}", alpha_bit_length);
+                println!("n_size = {:?}", n_bit_length);
+                println!("===========================================================");
+                
                 return NGen {
                     n: &p * &q,
                     p,
