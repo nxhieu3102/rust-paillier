@@ -11,7 +11,8 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
         let mut count = 0;
         loop {
             count += 1;
-
+            // println!("{}", count);
+            
             let div_p = BigInt::sample_prime(alpha_bit_length / 2);
             let div_q = BigInt::sample_prime(alpha_bit_length / 2);
 
