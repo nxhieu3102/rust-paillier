@@ -33,10 +33,6 @@ harness = false
 name = "keygen"
 harness = false
 
-[[bench]]
-name = "proof"
-harness = false
-
 [[example]]
 name = "basic"
 
