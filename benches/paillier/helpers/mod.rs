@@ -67,3 +67,30 @@ impl KeySize for KeySize4096 {
         }
     }
 }
+
+pub struct KeySize448;
+
+impl KeySize for KeySize448 {
+    fn size() -> usize {
+        448
+    }
+}
+
+pub struct KeySize7680;
+
+impl KeySize for crate::helpers::KeySize7680 {
+    fn size() -> usize {
+        448
+    }
+}
+
+
+pub struct KeySize768;
+
+impl KeySize for crate::helpers::KeySize768 {
+    fn size() -> usize {
+        448
+    }
+}
+
+

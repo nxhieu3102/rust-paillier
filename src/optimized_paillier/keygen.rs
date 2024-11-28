@@ -1,6 +1,6 @@
 use curv::arithmetic::Samplable;
 use curv::arithmetic::traits::*;
-use crate::optimized_paillier::traits::KeyGeneration;
+use crate::optimized_paillier::*;
 
 use super::{NGen, OptimizedPaillier};
 use crate::{are_all_primes, check_coprime, BigInt, PrimeSampable};
@@ -9,6 +9,7 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
     fn ngen_with_modulus_size(n_bit_length: usize, alpha_bit_length: usize) -> NGen {
         // TODO: set max loop
         let mut count = 0;
+
         loop {
             count += 1;
 

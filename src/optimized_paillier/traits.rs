@@ -3,7 +3,7 @@
 /// Secure generation of NGen
 pub trait KeyGeneration<NG> {
     /// Generate fresh NGen with currently recommended security level (2048 bit modulus).
-    fn ngen() -> NG {
+    fn ngen(n_bit: i32, a_bit: i32) -> NG {
         Self::ngen_with_modulus_size(2048, 448)
     }
     fn ngen_safe_primes() -> NG {

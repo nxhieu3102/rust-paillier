@@ -38,11 +38,11 @@ path = "benches/paillier/encryption.rs"
 name = "keygen"
 harness = false
 path = "benches/paillier/keygen.rs"
-
-[[bench]]
-name = "proof"
-harness = false
-path = "benches/paillier/proof.rs"
+#
+#[[bench]]
+#name = "proof"
+#harness = false
+#path = "benches/paillier/proof.rs"
 
 # examples
 [[example]]

@@ -14,7 +14,6 @@ use crate::BigInt;
 
 /// Main struct onto which most operations are added.
 pub struct OptimizedPaillier;
-
 // values to compute public and secret key
 pub struct NGen {
     pub alpha_size: usize, // bit size of alpha, generate random for encryption
