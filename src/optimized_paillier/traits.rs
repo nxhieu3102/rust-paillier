@@ -36,6 +36,12 @@ pub trait Decrypt<DK, CT, PT> {
     fn decrypt(ek: &DK, c: CT) -> PT;
 }
 
+/// Decryption of ciphertext use Chinese Remainder Theorem (CRT)
+pub trait DecryptCRT<DK, CT, PT> {
+    /// Decrypt ciphertext `c` using key `dk` into a plaintext.
+    fn decrypt_crt(dk: &DK, c: CT) -> PT;
+}
+
 /// Opening of ciphertext.
 ///
 /// Unlike decryption this also returns the randomness used.

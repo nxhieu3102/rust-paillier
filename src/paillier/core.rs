@@ -344,6 +344,9 @@ impl<'c, 'm> Decrypt<DecryptionKey, RawCiphertext<'c>, RawPlaintext<'m>> for Pai
 /// Efficient decryption using CRT based on [Paillier99, section 7](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.112.4035&rep=rep1&type=pdf)
 impl<'c, 'm> Decrypt<DecryptionKey, &'c RawCiphertext<'c>, RawPlaintext<'m>> for Paillier {
     fn decrypt(dk: &DecryptionKey, c: &'c RawCiphertext<'c>) -> RawPlaintext<'m> {
+        // l(u,n) = (u-1)/n mod n
+        // m = l(c^lambda mod n^2, n) / l(g^lambda mod n^2, n) mod n
+        
         let dk_qq = &dk.q * &dk.q;
         let dk_pp = &dk.p * &dk.p;
         let dk_n = &dk.p * &dk.q;
@@ -514,6 +517,17 @@ pub fn extract_nroot(dk: &DecryptionKey, z: &BigInt) -> BigInt {
 
     crt_recombine(rp, rq, &dk.p, &dk.q, &dk_pinv)
 }
+
+// // l(c^(2*alpha mod n^2), n)
+// let dc = BigInt::mod_pow(&c.0, &(2 * &dk.alpha), &dk.nn);
+// let lc = (&dc - 1) / &dk.n; // l(u,n) = (u - 1) / n
+
+// // (2* alpha)^(-1) (mod n)
+// let inv_alpha = BigInt::mod_inv(&(2 * &dk.alpha), &dk.n).unwrap();
+
+// // m = l(c^(2*alpha mod n^2), n) * (2* alpha)^(-1) (mod n)
+// let m = &lc * &inv_alpha % &dk.n;
+// RawPlaintext(Cow::Owned(m))
 
 #[cfg(test)]
 mod tests {

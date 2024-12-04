@@ -36,6 +36,8 @@ pub struct EncryptionKey {
 
 // secret key
 pub struct DecryptionKey {
+    pub p: BigInt, // prime, for fast decryption (CRT)
+    pub q: BigInt, // prime, for fast decryption (CRT)
     pub alpha: BigInt, // alpha = div_p * div_q
     pub n: BigInt, // n = p * q
     pub nn: BigInt, // nn = n * n

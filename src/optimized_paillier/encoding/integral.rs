@@ -33,6 +33,18 @@ where
     }
 }
 
+// faster decrypt cipher text in u64 --> plaintext in u64
+impl<DK, C> DecryptCRT<DK, C, u64> for OptimizedPaillier
+where
+    for<'c, 'p> Self: DecryptCRT<DK, RawCiphertext<'c>, RawPlaintext<'p>>,
+    C: Borrow<EncodedCiphertext<u64>>,
+{
+    fn decrypt_crt(dk: &DK, c: C) -> u64 {
+        let m = Self::decrypt_crt(dk, RawCiphertext::from(&c.borrow().raw));
+        u64::try_from(&BigInt::from(m)).unwrap()
+    }
+}
+
 // ciphertext1 + ciphertext2 --> ciphertext3 (in u64)
 impl<EK, C1, C2> Add<EK, C1, C2, EncodedCiphertext<u64>> for OptimizedPaillier
 where
@@ -170,6 +182,18 @@ mod tests {
         let c = OptimizedPaillier::encrypt(&ek, m);
 
         let recovered_m = OptimizedPaillier::decrypt(&dk, &c);
+        assert_eq!(recovered_m, m);
+    }
+
+    
+    #[test]
+    fn test_crt_decryption() {
+        let (ek, dk) = test_ngen().keys();
+
+        let m = 10;
+        let c = OptimizedPaillier::encrypt(&ek, m);
+
+        let recovered_m = OptimizedPaillier::decrypt_crt(&dk, &c);
         assert_eq!(recovered_m, m);
     }
 
