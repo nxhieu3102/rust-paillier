@@ -5,7 +5,6 @@ pub mod core;
 
 use std::borrow::Cow;
 
-pub use keygen::*;
 pub use traits::*;
 pub use encoding::*;
 pub use crate::optimized_paillier::core::*;
