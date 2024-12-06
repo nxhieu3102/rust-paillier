@@ -48,12 +48,13 @@ mod bench {
     benchmark_group!(
         group_optimized_paillier,
         bench_key_gen_optimized_pailler::<KeySize2048, KeySize448>,
-        bench_key_gen_optimized_pailler::<KeySize3072, KeySize512>,
-        bench_key_gen_optimized_pailler::<KeySize7680, KeySize768>
+        // bench_key_gen_optimized_pailler::<KeySize3072, KeySize512>,
+        // bench_key_gen_optimized_pailler::<KeySize7680, KeySize768>
     );
 }
 
-benchmark_main!(bench::group,
+benchmark_main!(
+    bench::group,
     bench::group_safe_primes,
     bench::group_optimized_paillier
 );

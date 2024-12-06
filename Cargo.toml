@@ -12,6 +12,7 @@ keywords = ["paillier", "homomorphic", "encryption", "zero-knowledge", "cryptoag
 rayon = "1.1"
 serde = { version = "1.0", features = ["derive"] }
 curv-kzen = { version = "0.10.0", default-features = false }
+serde_json = "1.0"
 
 [dev-dependencies]
 bencher = "0.1"
@@ -24,21 +25,27 @@ default = ["curv-kzen/rust-gmp-kzen"]
 ######### Paillier 
 
 # benchmark
-[[bench]]
-name = "arith"
-harness = false
-path = "benches/paillier/arith.rs"
-
-[[bench]]
-name = "encryption"
-harness = false
-path = "benches/paillier/encryption.rs"
-
-[[bench]]
-name = "keygen"
-harness = false
-path = "benches/paillier/keygen.rs"
+#[[bench]]
+#name = "arith"
+#harness = false
+#path = "benches/paillier/arith.rs"
 #
+#[[bench]]
+#name = "encryption"
+#harness = false
+#path = "benches/paillier/encryption.rs"
+#
+#[[bench]]
+#name = "keygen"
+#harness = false
+#path = "benches/paillier/keygen.rs"
+
+[[bench]]
+name = "keygen_optimized"
+harness = false
+path = "benches/optimized_paillier/keygen.rs"
+
+
 #[[bench]]
 #name = "proof"
 #harness = false
