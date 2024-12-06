@@ -1,6 +1,7 @@
 use curv::arithmetic::*;
 use std::borrow::Borrow;
-
+use std::ops::Div;
+use crate::paillier::MinimalEncryptionKey;
 use super::*;
 
 impl NGen {
@@ -89,6 +90,7 @@ impl<'b> From<RawCiphertext<'b>> for BigInt {
     }
 }
 
+
 // --------------------------
 
 // impl Serialize for EncryptionKey {
@@ -141,14 +143,14 @@ impl<'m, 'd> Encrypt<EncryptionKey, RawPlaintext<'m>, RawCiphertext<'d>> for Opt
 impl<'c, 'm> Decrypt<DecryptionKey, RawCiphertext<'c>, RawPlaintext<'m>> for OptimizedPaillier {
     fn decrypt(dk: &DecryptionKey, c: RawCiphertext<'c>) -> RawPlaintext<'m> {
         // l(c^(2*alpha mod n^2), n)
-        let dc = BigInt::mod_pow(&c.0, &(2 * &dk.alpha), &dk.nn);
-        let lc = (&dc - 1) / &dk.n; // l(u,n) = (u - 1) / n
+        let dc = BigInt::mod_pow(&c.0, &(2 * &dk.alpha), &dk.nn) - 1;
+        let lc = BigInt::div_ceil(&dc, &dk.n); // l(u,n) = (u - 1) / n
 
         // (2* alpha)^(-1) (mod n)
         let inv_alpha = BigInt::mod_inv(&(2 * &dk.alpha), &dk.n).unwrap();
 
         // m = l(c^(2*alpha mod n^2), n) * (2* alpha)^(-1) (mod n)
-        let m = &lc * &inv_alpha % &dk.n;
+        let m = BigInt::mod_mul(&lc, &inv_alpha, &dk.n);
         RawPlaintext(Cow::Owned(m))
     }
 }

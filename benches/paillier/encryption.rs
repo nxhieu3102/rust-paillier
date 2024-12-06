@@ -70,21 +70,21 @@ pub fn bench_multiplication<KS: KeySize>(b: &mut Bencher) {
 benchmark_group!(
     ks_2048,
     self::bench_encryption_ek<KeySize2048>,
-    self::bench_encryption_dk<KeySize2048>,
+    // self::bench_encryption_dk<KeySize2048>,
     self::bench_decryption<KeySize2048>,
-    self::bench_rerandomisation<KeySize2048>,
+    // self::bench_rerandomisation<KeySize2048>,
     self::bench_addition<KeySize2048>,
     self::bench_multiplication<KeySize2048>
 );
 
 benchmark_group!(
-    ks_4096,
-    self::bench_encryption_ek<KeySize4096>,
-    self::bench_encryption_dk<KeySize4096>,
-    self::bench_decryption<KeySize4096>,
-    self::bench_rerandomisation<KeySize4096>,
-    self::bench_addition<KeySize4096>,
-    self::bench_multiplication<KeySize4096>
+    ks_3072,
+    self::bench_encryption_ek<KeySize3072>,
+    // self::bench_encryption_dk<KeySize3072>,
+    self::bench_decryption<KeySize3072>,
+    // self::bench_rerandomisation<KeySize3072>,
+    self::bench_addition<KeySize3072>,
+    self::bench_multiplication<KeySize3072>
 );
 
-benchmark_main!(ks_2048, ks_4096);
+benchmark_main!(ks_2048, ks_3072);

@@ -1,4 +1,6 @@
 mod helpers;
+mod encryption;
+
 use bencher::benchmark_main;
 
 mod bench {
