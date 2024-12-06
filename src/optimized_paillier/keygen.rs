@@ -1,7 +1,6 @@
 use curv::arithmetic::Samplable;
 use curv::arithmetic::traits::*;
-use crate::optimized_paillier::*;
-use std::time::Instant;
+use crate::optimized_paillier::traits::KeyGeneration;
 
 use super::{NGen, OptimizedPaillier};
 use crate::{are_all_primes, check_coprime, BigInt, PrimeSampable};
@@ -41,7 +40,7 @@ impl KeyGeneration<NGen> for OptimizedPaillier {
             let mut other_div_p = BigInt::sample(other_bit_length);
             let mut other_div_q = BigInt::sample(other_bit_length);
 
-            // Ensure the candidate is odd
+            // We flip the LSB to make sure tue candidate is odd.
             BigInt::set_bit(&mut other_div_p, 0, true);
             BigInt::set_bit(&mut other_div_q, 0, true);
 

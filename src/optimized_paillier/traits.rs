@@ -16,9 +16,9 @@ pub trait KeyGeneration<NG> {
     fn ngen_safe_primes_with_modulus_size(n_bit_length: usize, alpha_bit_length: usize) -> NG;
 }
 
-pub trait PrecomputeRandomness<EK, R, PR> {
-    fn precompute(ek: EK, r: R) -> PR;
-}
+// pub trait PrecomputeRandomness<EK, R, PR> {
+//     fn precompute(ek: EK, r: R) -> PR;
+// }
 
 /// Encryption of plaintext.
 pub trait Encrypt<EK, PT, CT> {
@@ -26,9 +26,9 @@ pub trait Encrypt<EK, PT, CT> {
     fn encrypt(ek: &EK, m: PT) -> CT;
 }
 
-pub trait EncryptWithChosenRandomness<EK, PT, R, CT> {
-    fn encrypt_with_chosen_randomness(ek: &EK, m: PT, r: R) -> CT;
-}
+// pub trait EncryptWithChosenRandomness<EK, PT, R, CT> {
+//     fn encrypt_with_chosen_randomness(ek: &EK, m: PT, r: R) -> CT;
+// }
 
 /// Decryption of ciphertext.
 pub trait Decrypt<DK, CT, PT> {
@@ -36,13 +36,19 @@ pub trait Decrypt<DK, CT, PT> {
     fn decrypt(ek: &DK, c: CT) -> PT;
 }
 
-/// Opening of ciphertext.
-///
-/// Unlike decryption this also returns the randomness used.
-pub trait Open<DK, CT, PT, R> {
-    /// Open ciphertext `c` using key `dk` into a plaintext and a randomness.
-    fn open(dk: &DK, c: CT) -> (PT, R);
+/// Decryption of ciphertext use Chinese Remainder Theorem (CRT)
+pub trait DecryptCRT<DK, CT, PT> {
+    /// Decrypt ciphertext `c` using key `dk` into a plaintext.
+    fn decrypt_crt(dk: &DK, c: CT) -> PT;
 }
+
+// /// Opening of ciphertext.
+// ///
+// /// Unlike decryption this also returns the randomness used.
+// pub trait Open<DK, CT, PT, R> {
+//     /// Open ciphertext `c` using key `dk` into a plaintext and a randomness.
+//     fn open(dk: &DK, c: CT) -> (PT, R);
+// }
 
 /// Addition of two ciphertexts.
 pub trait Add<EK, CT1, CT2, CT> {
@@ -58,9 +64,9 @@ pub trait Mul<EK, CT1, PT2, CT> {
     fn mul(ek: &EK, c1: CT1, m2: PT2) -> CT;
 }
 
-/// Rerandomisation of ciphertext.
-pub trait Rerandomize<EK, CT1, CT> {
-    /// Rerandomise ciphertext `c` to hide any history of which homomorphic operations were
-    /// used to compute it, making it look exactly like a fresh encryption of the same plaintext.
-    fn rerandomize(ek: &EK, c: CT1) -> CT;
-}
+// /// Rerandomisation of ciphertext.
+// pub trait Rerandomize<EK, CT1, CT> {
+//     /// Rerandomise ciphertext `c` to hide any history of which homomorphic operations were
+//     /// used to compute it, making it look exactly like a fresh encryption of the same plaintext.
+//     fn rerandomize(ek: &EK, c: CT1) -> CT;
+// }
