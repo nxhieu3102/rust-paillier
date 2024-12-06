@@ -87,6 +87,12 @@ impl KeySize for crate::helpers::KeySize7680 {
 
 
 pub struct KeySize768;
+pub struct PrecomputeTableParams {
+    pub g: BigInt,
+    pub block_size: usize,
+    pub pow_size: usize,
+    pub modulo: BigInt
+}
 
 impl KeySize for crate::helpers::KeySize768 {
     fn size() -> usize {
@@ -97,6 +103,8 @@ pub trait NKeySize {
     fn size() -> usize;
     fn gen() -> NGen;
     fn dgen() -> DecryptionKey;
+
+    fn pgen(_: usize) -> PrecomputeTableParams;
 }
 pub struct NKeySize2048;
 
@@ -130,7 +138,21 @@ impl NKeySize for NKeySize2048 {
         DecryptionKey {
             alpha: BigInt::from_str_radix(DP2048, 10).unwrap(),
             nn: BigInt::mul(&p, &q),
-            n
+            n,
+            p,
+            q
+        }
+    }
+
+    fn pgen(bs: usize) -> PrecomputeTableParams {
+        // g = h^n mod n^2
+        let (ek, _dk) = Self::gen().keys();
+        let g = BigInt::mod_pow(&ek.h, &ek.n, &ek.nn);
+        PrecomputeTableParams {
+            g,
+            block_size: bs,
+            pow_size: ek.alpha_size,
+            modulo: ek.nn,
         }
     }
 }
@@ -170,10 +192,26 @@ impl NKeySize for crate::helpers::NKeySize3072 {
         let p: BigInt = BigInt::from_str_radix(crate::helpers::PP3072, 10).unwrap();
         let q: BigInt = BigInt::from_str_radix(crate::helpers::PQ3072, 10).unwrap();
         let n = BigInt::mul(&p, &q);
+
         DecryptionKey {
             alpha: BigInt::from_str_radix(crate::helpers::DP3072, 10).unwrap(),
             nn: BigInt::mul(&p, &q),
-            n
+            n,
+            p,
+            q
         }
     }
+
+    fn pgen(bs: usize) -> PrecomputeTableParams {
+        // g = h^n mod n^2
+        let (ek, _dk) = Self::gen().keys();
+        let g = BigInt::mod_pow(&ek.h, &ek.n, &ek.nn);
+        PrecomputeTableParams {
+            g,
+            block_size: bs,
+            pow_size: ek.alpha_size,
+            modulo: ek.nn,
+        }
+    }
+
 }

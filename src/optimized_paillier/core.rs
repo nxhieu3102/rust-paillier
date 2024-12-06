@@ -46,12 +46,6 @@ impl NGen {
 }
 
 // -------------------------- Precompute table to calculate: g^x (g is a constant)
-pub struct PrecomputeTable {
-    pow_size: usize,
-    block_size: usize,
-    modulo: BigInt,
-    table: Vec<Vec<BigInt>>,
-}
 
 impl PrecomputeTable {
     fn calculate_table(
@@ -59,7 +53,8 @@ impl PrecomputeTable {
         block_size: usize,
         pow_size: usize,
         modulo: &BigInt,
-    ) -> Vec<Vec<BigInt>> {
+    ) -> Vec<Vec<BigInt>>
+    {
         // let i_min = 1 as usize;
         let i_max = pow_size / block_size + if (pow_size % block_size) > 0 { 1 } else { 0 };
         // let j_min = 0 as usize;
@@ -89,7 +84,8 @@ impl PrecomputeTable {
         block_size: usize,
         pow_size: usize,
         modulo: &BigInt,
-    ) -> Vec<Vec<BigInt>> {
+    ) -> Vec<Vec<BigInt>>
+    {
         // let i_min = 1 as usize;
         let i_max = pow_size / block_size + if (pow_size % block_size) > 0 { 1 } else { 0 };
         // let j_min = 0 as usize;

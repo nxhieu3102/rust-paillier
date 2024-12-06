@@ -52,3 +52,10 @@ pub struct RawPlaintext<'b>(pub Cow<'b, BigInt>);
 /// Used mostly for internal purposes and advanced use-cases.
 #[derive(Clone, Debug, PartialEq)]
 pub struct RawCiphertext<'b>(pub Cow<'b, BigInt>);
+
+pub struct PrecomputeTable {
+    pow_size: usize,
+    block_size: usize,
+    modulo: BigInt,
+    table: Vec<Vec<BigInt>>,
+}

@@ -46,16 +46,16 @@ default = ["curv-kzen/rust-gmp-kzen"]
 #path = "benches/optimized_paillier/keygen.rs"
 
 
-#[[bench]]
-#name = "encryption_optimized"
-#harness = false
-#path = "benches/optimized_paillier/encryption.rs"
-
-
 [[bench]]
-name = "encryption"
+name = "encryption_optimized"
 harness = false
-path = "benches/paillier/encryption.rs"
+path = "benches/optimized_paillier/precomputable.rs"
+
+
+#[[bench]]
+#name = "encryption"
+#harness = false
+#path = "benches/paillier/encryption.rs"
 
 #[[bench]]
 #name = "proof"

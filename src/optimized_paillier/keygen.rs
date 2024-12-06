@@ -8,6 +8,7 @@ use crate::{are_all_primes, check_coprime, BigInt, PrimeSampable};
 use std::io::{Read, Write};
 
 use std::fs::{File, OpenOptions};
+use std::time::Instant;
 use serde::Serialize; // To enable serialization for structs
 use serde_json::{self, Value, Map};
 
