@@ -20,10 +20,22 @@ pub trait KeyGeneration<NG> {
 //     fn precompute(ek: EK, r: R) -> PR;
 // }
 
+pub trait PowWithPrecomputeTable<PT, BI, US> {
+    fn calculate_precompute_table(g: BI, block_size: US, pow_size: US, modulo: BI) -> PT;
+    fn calculate_precompute_table_with_dp(g: BI, block_size: US, pow_size: US, modulo: BI) -> PT;
+    fn convert_into_block(precompute_table: &PT, x: &BI) -> Vec<US>;
+    fn pow(precompute_table: &PT, pow: &BI) -> BI;
+}
+
 /// Encryption of plaintext.
 pub trait Encrypt<EK, PT, CT> {
     /// Encrypt plaintext `m` under key `ek` into a ciphertext.
     fn encrypt(ek: &EK, m: PT) -> CT;
+}
+
+pub trait EncryptWithPrecomputeTable<EK, PT, CT, PC> {
+    /// Encrypt plaintext `m` under key `ek` into a ciphertext.
+    fn encrypt_with_precompute_table(precompute_table: &PC, ek: &EK, m: PT) -> CT;
 }
 
 // pub trait EncryptWithChosenRandomness<EK, PT, R, CT> {
