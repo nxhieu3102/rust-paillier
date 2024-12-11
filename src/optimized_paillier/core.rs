@@ -145,13 +145,33 @@ impl PrecomputeTable {
             modulo,
         }
     }
+}
 
-    fn convert_into_block(&self, x: &BigInt) -> Vec<usize> {
+impl PowWithPrecomputeTable<PrecomputeTable, BigInt, usize> for OptimizedPaillier {
+    fn calculate_precompute_table(
+        g: BigInt,
+        block_size: usize,
+        pow_size: usize,
+        modulo: BigInt,
+    ) -> PrecomputeTable {
+        PrecomputeTable::new(g, block_size, pow_size, modulo)
+    }
+
+    fn calculate_precompute_table_with_dp(
+        g: BigInt,
+        block_size: usize,
+        pow_size: usize,
+        modulo: BigInt,
+    ) -> PrecomputeTable {
+        PrecomputeTable::new_dp(g, block_size, pow_size, modulo)
+    }
+
+    fn convert_into_block(precompute_table: &PrecomputeTable, x: &BigInt) -> Vec<usize> {
         // convert bigint --> list of bits
         // block_size bits --> group (right to left)
         // each group --> usize/u64/...
-        let block_size = self.block_size;
-        let pow_size = self.pow_size;
+        let block_size = precompute_table.block_size;
+        let pow_size = precompute_table.pow_size;
         let num_block = pow_size / block_size + if (pow_size % block_size) > 0 { 1 } else { 0 };
 
         let mut result = vec![0; num_block];
@@ -169,12 +189,16 @@ impl PrecomputeTable {
         result
     }
 
-    pub fn compute(&self, pow: &BigInt) -> BigInt {
-        let pow_blocks = self.convert_into_block(&pow);
+    fn pow(precompute_table: &PrecomputeTable, pow: &BigInt) -> BigInt {
+        let pow_blocks = Self::convert_into_block(&precompute_table, &pow);
         let mut result = BigInt::one();
 
         for (id, pow_block) in pow_blocks.iter().enumerate() {
-            result = BigInt::mod_mul(&result, &self.table[id][*pow_block], &self.modulo);
+            result = BigInt::mod_mul(
+                &result,
+                &precompute_table.table[id][*pow_block],
+                &precompute_table.modulo,
+            );
         }
 
         result
@@ -182,33 +206,64 @@ impl PrecomputeTable {
 }
 
 #[cfg(test)]
-mod test_precompute {
-    use crate::optimized_paillier::PrecomputeTable;
+mod test_pow_with_precompute {
+    use crate::optimized_paillier::{OptimizedPaillier, PowWithPrecomputeTable};
     use curv::{arithmetic::Modulo, BigInt};
 
+    use super::PrecomputeTable;
+
+    fn test_pow_with_precompute(precompute: &PrecomputeTable, base: &BigInt, modulo: &BigInt) {
+        let pow = BigInt::from(1);
+        let result = OptimizedPaillier::pow(precompute, &pow);
+        assert_eq!(result, BigInt::mod_pow(base, &pow, modulo));
+
+        let pow = BigInt::from(5);
+        let result = OptimizedPaillier::pow(precompute, &pow);
+        assert_eq!(result, BigInt::mod_pow(base, &pow, modulo));
+
+        let pow = BigInt::from(20);
+        let result = OptimizedPaillier::pow(precompute, &pow);
+        assert_eq!(result, BigInt::mod_pow(base, &pow, modulo));
+
+        let pow = BigInt::from(1000);
+        let result = OptimizedPaillier::pow(precompute, &pow);
+        assert_eq!(result, BigInt::mod_pow(base, &pow, modulo));
+    }
+
     #[test]
-    fn test_pow_with_precompute() {
+    fn precompute() {
         let base = BigInt::from(2);
+        let block_size = 3;
+        let pow_size = 10;
         let modulo = BigInt::from(1000000000);
 
         // pow <= 2^10 - 1
-        let precompute = PrecomputeTable::new(base.clone(), 3, 10, modulo.clone());
+        let precompute = OptimizedPaillier::calculate_precompute_table(
+            base.clone(),
+            block_size,
+            pow_size,
+            modulo.clone(),
+        );
 
-        let pow = BigInt::from(1);
-        let result = precompute.compute(&pow);
-        assert_eq!(result, BigInt::mod_pow(&base, &pow, &modulo));
+        test_pow_with_precompute(&precompute, &base, &modulo);
+    }
 
-        let pow = BigInt::from(5);
-        let result = precompute.compute(&pow);
-        assert_eq!(result, BigInt::mod_pow(&base, &pow, &modulo));
+    #[test]
+    fn precompute_with_dp() {
+        let base = BigInt::from(2);
+        let block_size = 3;
+        let pow_size = 10;
+        let modulo = BigInt::from(1000000000);
 
-        let pow = BigInt::from(20);
-        let result = precompute.compute(&pow);
-        assert_eq!(result, BigInt::mod_pow(&base, &pow, &modulo));
+        // pow <= 2^10 - 1
+        let precompute = OptimizedPaillier::calculate_precompute_table_with_dp(
+            base.clone(),
+            block_size,
+            pow_size,
+            modulo.clone(),
+        );
 
-        let pow = BigInt::from(1000);
-        let result = precompute.compute(&pow);
-        assert_eq!(result, BigInt::mod_pow(&base, &pow, &modulo));
+        test_pow_with_precompute(&precompute, &base, &modulo);
     }
 }
 
@@ -300,6 +355,26 @@ impl<'m, 'd> Encrypt<EncryptionKey, RawPlaintext<'m>, RawCiphertext<'d>> for Opt
         let r = Randomness::sample(ek);
         // rn = hn^r (mod n^2)
         let rn = BigInt::mod_pow(&ek.hn, &r.0, &ek.nn);
+
+        // gm = (1 + m*n) (mod n^2)
+        let gm: BigInt = (m.0.borrow() as &BigInt * &ek.n + 1) % &ek.nn;
+
+        let c = (gm * rn) % &ek.nn;
+
+        RawCiphertext(Cow::Owned(c))
+    }
+}
+
+// Faster encryption
+impl<'m, 'd> EncryptWithPrecomputeTable<EncryptionKey, RawPlaintext<'m>, RawCiphertext<'d>, PrecomputeTable> for OptimizedPaillier { 
+    fn encrypt_with_precompute_table(precompute_table: &PrecomputeTable, ek: &EncryptionKey, m: RawPlaintext<'m>) -> RawCiphertext<'d> {
+        // number of bit(r) = alpha_size
+        let r = Randomness::sample(ek);
+
+        // rn = hn^r (mod n^2)
+        // use Self::pow() instead of BigInt::mod_pow()
+        // so, we replace `let rn = BigInt::mod_pow(&ek.hn, &r.0, &ek.nn);` by
+        let rn = Self::pow(precompute_table, &r.0);
 
         // gm = (1 + m*n) (mod n^2)
         let gm: BigInt = (m.0.borrow() as &BigInt * &ek.n + 1) % &ek.nn;
@@ -527,6 +602,31 @@ mod tests {
 
         let p = RawPlaintext::from(BigInt::from(10));
         let c = OptimizedPaillier::encrypt(&ek, p.clone());
+
+        let recovered_p = OptimizedPaillier::decrypt(&dk, c);
+        assert_eq!(recovered_p, p);
+    }
+
+    #[test]
+    fn test_encryption_with_precompute() {
+        let (ek, dk) = test_ngen().keys();
+        
+        let base = ek.hn.clone();
+        // block_size > 10 --> memory error
+        let block_size = 5;
+        let pow_size = ek.alpha_size;
+        let modulo = ek.nn.clone();
+        
+        // pow <= 2^pow_size - 1
+        let precompute = OptimizedPaillier::calculate_precompute_table(
+            base,
+            block_size,
+            pow_size,
+            modulo,
+        );
+        
+        let p = RawPlaintext::from(BigInt::from(10));
+        let c = OptimizedPaillier::encrypt_with_precompute_table(&precompute, &ek, p.clone());
 
         let recovered_p = OptimizedPaillier::decrypt(&dk, c);
         assert_eq!(recovered_p, p);
