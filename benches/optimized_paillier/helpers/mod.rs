@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+pub mod logger;
+
 use curv::arithmetic::traits::*;
 use curv::BigInt;
 use kzen_paillier::optimized_paillier::{DecryptionKey, NGen};
@@ -105,6 +107,7 @@ pub trait NKeySize {
     fn dgen() -> DecryptionKey;
 
     fn pgen(_: usize) -> PrecomputeTableParams;
+    fn string() -> String;
 }
 pub struct NKeySize2048;
 
@@ -154,6 +157,10 @@ impl NKeySize for NKeySize2048 {
             pow_size: ek.alpha_size,
             modulo: ek.nn,
         }
+    }
+
+    fn string() -> String {
+        "NKeySize2048".to_string()
     }
 }
 
@@ -212,6 +219,10 @@ impl NKeySize for crate::helpers::NKeySize3072 {
             pow_size: ek.alpha_size,
             modulo: ek.nn,
         }
+    }
+
+    fn string() -> String {
+        "NKeySize3072".to_string()
     }
 
 }

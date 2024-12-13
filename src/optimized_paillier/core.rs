@@ -2,6 +2,7 @@ use curv::arithmetic::*;
 use rayon::join;
 use std::borrow::Borrow;
 use std::ops::Div;
+use std::mem;
 use crate::paillier::MinimalEncryptionKey;
 use super::*;
 
@@ -88,9 +89,10 @@ impl PrecomputeTable {
     {
         // let i_min = 1 as usize;
         let i_max = pow_size / block_size + if (pow_size % block_size) > 0 { 1 } else { 0 };
+        println!("i_max = {}", i_max);
         // let j_min = 0 as usize;
         let j_max = (1 << block_size) - 1;
-
+        println!("j_max = {}", j_max);
         // table[i][j] = [g^(2^(ib))]^j mod modulo
         let mut table = vec![vec![BigInt::one(); j_max + 1]; i_max + 1];
 
@@ -113,6 +115,9 @@ impl PrecomputeTable {
         for i in 1..=i_max {
             table[i][1] = BigInt::mod_pow(&table[i - 1][1], &two_pow_b, &modulo);
         }
+
+        println!("Done init base");
+
 
         // for i >= 1 and j >= 2: table[i][j] = table[i][j - 1] . table[i][1]
         for i in 1..=i_max {
@@ -145,6 +150,14 @@ impl PrecomputeTable {
             modulo,
         }
     }
+    pub fn size_in_bytes(&self) -> usize {
+        let mut size = 0;
+        for row in &self.table {
+            size += row.len() * mem::size_of::<BigInt>();
+        }
+        size
+    }
+
 }
 
 impl PowWithPrecomputeTable<PrecomputeTable, BigInt, usize> for OptimizedPaillier {

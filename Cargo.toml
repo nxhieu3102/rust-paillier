@@ -13,6 +13,7 @@ rayon = "1.1"
 serde = { version = "1.0", features = ["derive"] }
 curv-kzen = { version = "0.10.0", default-features = false }
 serde_json = "1.0"
+once_cell = "1.20.2"
 
 [dev-dependencies]
 bencher = "0.1"
@@ -46,10 +47,16 @@ default = ["curv-kzen/rust-gmp-kzen"]
 #path = "benches/optimized_paillier/keygen.rs"
 
 
+#[[bench]]
+#name = "encryption_optimized"
+#harness = false
+#path = "benches/optimized_paillier/encryption.rs"
+
+
 [[bench]]
-name = "encryption_optimized"
+name = "encryption_precomputed"
 harness = false
-path = "benches/optimized_paillier/precomputable.rs"
+path = "benches/optimized_paillier/encryption_precompute.rs"
 
 
 #[[bench]]
@@ -78,6 +85,8 @@ path = "examples/paillier/packed.rs"
 [[example]]
 name = "simple-voting"
 path = "examples/paillier/simple-voting.rs"
+
+
 
 # ######### Optimized Paillier 
 
@@ -110,6 +119,10 @@ path = "examples/optimized_paillier/basic.rs"
 [[example]]
 name = "optimized-core"
 path = "examples/optimized_paillier/core.rs"
+
+[[example]]
+name = "optimized-test"
+path = "examples/optimized_paillier/test.rs"
 
 # [[example]]
 # name = "optimized-packed"

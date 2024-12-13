@@ -1,3 +1,5 @@
+mod test;
+
 use kzen_paillier::optimized_paillier::*;
 
 fn main() {

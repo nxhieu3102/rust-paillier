@@ -1,5 +1,5 @@
 // support plaintext/ciphertext in u64
-use std::{borrow::Borrow, marker::PhantomData};
+use std::{borrow::Borrow, marker::PhantomData, u128, u64};
 
 use std::convert::TryFrom;
 
@@ -55,7 +55,11 @@ where
 {
     fn decrypt(dk: &DK, c: C) -> u64 {
         let m = Self::decrypt(dk, RawCiphertext::from(&c.borrow().raw));
-        u64::try_from(&BigInt::from(m)).unwrap()
+        let bigint = BigInt::from(m);
+        if (bigint > BigInt::from(u64::MAX)) {
+            return u64::MAX;
+        }
+        u64::try_from(&bigint).unwrap()
     }
 }
 
