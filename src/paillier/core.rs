@@ -350,6 +350,7 @@ impl<'c, 'm> Decrypt<DecryptionKey, &'c RawCiphertext<'c>, RawPlaintext<'m>> for
         let dk_qq = &dk.q * &dk.q;
         let dk_pp = &dk.p * &dk.p;
         let dk_n = &dk.p * &dk.q;
+
         let dk_pinv = BigInt::mod_inv(&dk.p, &dk.q).unwrap();
         let dk_qminusone = &dk.q - BigInt::one();
         let dk_pminusone = &dk.p - BigInt::one();

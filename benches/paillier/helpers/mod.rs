@@ -59,7 +59,7 @@ impl KeySize for KeySize3072 {
     fn keypair() -> Keypair {
         Keypair {
             p: BigInt::from_str_radix(P3072, 10).unwrap(),
-            q: BigInt::from_str_radix(P3072, 10).unwrap(),
+            q: BigInt::from_str_radix(Q3072, 10).unwrap(),
         }
     }
 }

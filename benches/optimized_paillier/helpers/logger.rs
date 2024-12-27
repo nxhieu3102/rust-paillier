@@ -3,6 +3,17 @@ use serde_json::{self, Value, Map};
 use std::io::{Read, Write};
 use std::fs::{File, OpenOptions};
 
+use once_cell::sync::Lazy;
+use redis::{Client, Commands, Connection, RedisResult};
+
+static REDIS_CLIENT: Lazy<Client> = Lazy::new(|| {
+    Client::open("redis://127.0.0.1/").expect("Failed to create Redis client")
+});
+
+pub fn get_redis_connection() -> RedisResult<Connection> {
+    REDIS_CLIENT.get_connection()
+}
+
 #[derive(Serialize)] // Make the struct serializable to JSON
 pub struct OutputData {
     pub benchmark_time: usize,
@@ -15,6 +26,12 @@ pub struct Logger {}
 
 impl Logger {
     pub fn log_benchmark_time(output: OutputData , file_path: String) {
+        let mut redis_client = get_redis_connection();
+        if let Ok(mut con) = redis_client {
+            let _ : () = con.xadd("test", "*", &[("data", serde_json::to_string(&output).unwrap().as_str())]).unwrap();
+        } else {
+            eprintln!("Failed to connect to Redis.");
+        }
         let mut current_json = Map::new();
         if let Ok(mut file) = File::open(file_path.clone()) {
             let mut contents = String::new();

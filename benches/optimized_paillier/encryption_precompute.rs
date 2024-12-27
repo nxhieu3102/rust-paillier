@@ -6,9 +6,9 @@ use crate::helpers::logger::{Logger, OutputData};
 use once_cell::sync::Lazy;
 use std::sync::Mutex;
 
-static BLOCK_SIZE: usize = 20;
+static BLOCK_SIZE: usize = 10;
 static PRECOMPUTE_TABLE: Lazy<Mutex<PrecomputeTable>> = Lazy::new(|| {
-    let params = NKeySize3072::pgen(BLOCK_SIZE);
+    let params = NKeySize2048::pgen(BLOCK_SIZE);
     Mutex::new(PrecomputeTable::new_dp(
         params.g.clone(),
         params.block_size,
@@ -30,7 +30,8 @@ pub fn bench_encryption_ek<KS: NKeySize>(b: &mut Bencher) {
         let _ = OptimizedPaillier::encrypt_with_precompute_table(&*table, &ek, 10); // Dereference table
     });
 
-    let elapsed_time = b.ns_elapsed();
+    let elapsed_time = b.ns_per_iter();
+    println!("Elapsed time: {}", elapsed_time);
     let file_path = "benches/optimized_paillier/benchmark_result/encryption_precompute/".to_string() + &KS::string() + ".json";
     Logger::log_benchmark_time(OutputData {
         benchmark_time: elapsed_time as usize,

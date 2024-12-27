@@ -1,4 +1,7 @@
 mod test;
+mod test_produce_redis;
+mod server;
+mod client;
 
 use kzen_paillier::optimized_paillier::*;
 
