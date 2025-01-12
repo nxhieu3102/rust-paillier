@@ -1,0 +1,30 @@
+{
+  "name": "kzen-paillier",
+  "type": "module",
+  "description": "Efficient pure-Rust library for the Paillier partially homomorphic encryption scheme",
+  "version": "0.4.3",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZenGo-X/rust-paillier"
+  },
+  "files": [
+    "kzen_paillier_bg.wasm",
+    "kzen_paillier.js",
+    "kzen_paillier.d.ts",
+    "LICENSE-APACHE",
+    "LICENSE-MIT"
+  ],
+  "main": "kzen_paillier.js",
+  "types": "kzen_paillier.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ],
+  "keywords": [
+    "paillier",
+    "homomorphic",
+    "encryption",
+    "zero-knowledge",
+    "cryptoagorithms"
+  ]
+}

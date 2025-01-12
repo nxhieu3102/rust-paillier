@@ -4,7 +4,7 @@ pub mod encoding;
 pub mod core;
 
 use std::borrow::Cow;
-
+use serde::Serialize;
 pub use traits::*;
 pub use encoding::*;
 pub use crate::optimized_paillier::core::*;
@@ -24,6 +24,8 @@ pub struct NGen {
 }
 
 // public key
+#[derive(Serialize)]
+
 pub struct EncryptionKey {
     pub alpha_size: usize, // bit size of alpha
     pub n: BigInt, // n = p * q
@@ -33,6 +35,8 @@ pub struct EncryptionKey {
 }
 
 // secret key
+#[derive(Serialize)]
+
 pub struct DecryptionKey {
     pub p: BigInt, // prime, for fast decryption (CRT)
     pub q: BigInt, // prime, for fast decryption (CRT)

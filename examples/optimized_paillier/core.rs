@@ -4,7 +4,7 @@ use kzen_paillier::optimized_paillier::*;
 fn main() {
     // generate a fresh keypair
     println!("key gen...");
-    let (ek, dk) = OptimizedPaillier::ngen().keys();
+    let (ek, dk) = OptimizedPaillier::ngen(0, 0).keys();
 
     // encrypt two values
     println!("encrypt...");
