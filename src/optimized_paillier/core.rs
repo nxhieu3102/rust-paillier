@@ -19,13 +19,13 @@ impl NGen {
 
         let y;
         // TODO: limit loop time
-        loop {
+        // loop {
             let random = BigInt::sample_below(&self.n);
-            if random.gcd(&self.n) == BigInt::one() {
+            // if random.gcd(&self.n) == BigInt::one() {
                 y = random;
-                break;
-            }
-        }
+                // break;
+            // }
+        // }
 
         // h = -y^(2*beta) (mod N)
         let h = BigInt::mod_pow(&y, &(2 * &beta), &self.n);

@@ -3,6 +3,8 @@ mod test_produce_redis;
 mod server;
 mod client;
 
+use serde_json::json;
+use wasm_bindgen::JsValue;
 use kzen_paillier::optimized_paillier::*;
 
 fn main() {
@@ -10,8 +12,13 @@ fn main() {
     // the encryption key can be made public
     // while the decryption key should remain private
     println!("key gen...");
-    let (ek, dk) = OptimizedPaillier::ngen().keys();
-    
+    let (ek, dk) = OptimizedPaillier::ngen(15, 10).keys();
+    let result = json!({
+        "encryptionKey": ek,
+        "decryptionKey": dk
+    });
+    println!("key gen...{}", result);
+    // serde_wasm_bindgen::to_value(&result).unwrap();/
     // after sharing the encryption key anyone can encrypt values
     println!("encrypt...");
     let c1 = OptimizedPaillier::encrypt(&ek, 10);
