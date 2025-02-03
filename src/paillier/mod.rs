@@ -6,7 +6,6 @@ pub mod traits;
 
 pub use self::core::*;
 pub use encoding::*;
-pub use keygen::*;
 pub use traits::*;
 
 use std::borrow::Cow;

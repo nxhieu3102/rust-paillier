@@ -1,0 +1,294 @@
+{
+  "results": [
+    {
+      "alpha_size": 32,
+      "div_p": "63823",
+      "div_q": "40801",
+      "elapsed_time": "9.022125ms",
+      "n_size": 64,
+      "p": "2435102743",
+      "q": "1810013963",
+      "retry_times": 30
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "38371",
+      "div_q": "56377",
+      "elapsed_time": "66.2095ms",
+      "n_size": 64,
+      "p": "1205693563",
+      "q": "486308003",
+      "retry_times": 174
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "46049",
+      "div_q": "44711",
+      "elapsed_time": "44.776334ms",
+      "n_size": 64,
+      "p": "991434971",
+      "q": "1097476207",
+      "retry_times": 155
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "59387",
+      "div_q": "47779",
+      "elapsed_time": "103.715375ms",
+      "n_size": 64,
+      "p": "945322267",
+      "q": "1920620243",
+      "retry_times": 372
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "44381",
+      "div_q": "51713",
+      "elapsed_time": "39.79875ms",
+      "n_size": 64,
+      "p": "601362551",
+      "q": "869088679",
+      "retry_times": 153
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "46489",
+      "div_q": "39791",
+      "elapsed_time": "43.774917ms",
+      "n_size": 64,
+      "p": "2929643803",
+      "q": "414065147",
+      "retry_times": 162
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "64849",
+      "div_q": "38501",
+      "elapsed_time": "36.014917ms",
+      "n_size": 64,
+      "p": "3850344527",
+      "q": "309779047",
+      "retry_times": 133
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "43487",
+      "div_q": "61091",
+      "elapsed_time": "67.455ms",
+      "n_size": 64,
+      "p": "245875499",
+      "q": "2476751323",
+      "retry_times": 256
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "60373",
+      "div_q": "56873",
+      "elapsed_time": "43.386417ms",
+      "n_size": 64,
+      "p": "2893919383",
+      "q": "3309439871",
+      "retry_times": 158
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "36899",
+      "div_q": "35869",
+      "elapsed_time": "3.861166ms",
+      "n_size": 64,
+      "p": "2287739",
+      "q": "779720323",
+      "retry_times": 13
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "50969",
+      "div_q": "56267",
+      "elapsed_time": "10.884958ms",
+      "n_size": 64,
+      "p": "1071062567",
+      "q": "1826089219",
+      "retry_times": 39
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "42061",
+      "div_q": "58679",
+      "elapsed_time": "3.047ms",
+      "n_size": 64,
+      "p": "2364585299",
+      "q": "3104236459",
+      "retry_times": 11
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "63499",
+      "div_q": "65179",
+      "elapsed_time": "4.751708ms",
+      "n_size": 64,
+      "p": "3013281547",
+      "q": "2784316523",
+      "retry_times": 17
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "64091",
+      "div_q": "34649",
+      "elapsed_time": "24.295333ms",
+      "n_size": 64,
+      "p": "1509343051",
+      "q": "160563467",
+      "retry_times": 91
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "44351",
+      "div_q": "34337",
+      "elapsed_time": "116.192875ms",
+      "n_size": 64,
+      "p": "943345771",
+      "q": "94014707",
+      "retry_times": 446
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "41161",
+      "div_q": "57881",
+      "elapsed_time": "137.191834ms",
+      "n_size": 64,
+      "p": "929497703",
+      "q": "2724227147",
+      "retry_times": 516
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "61091",
+      "div_q": "34337",
+      "elapsed_time": "18.426292ms",
+      "n_size": 64,
+      "p": "2569609643",
+      "q": "970020251",
+      "retry_times": 68
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "43391",
+      "div_q": "53773",
+      "elapsed_time": "12.169625ms",
+      "n_size": 64,
+      "p": "2152627511",
+      "q": "821974079",
+      "retry_times": 46
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "47279",
+      "div_q": "55717",
+      "elapsed_time": "17.311125ms",
+      "n_size": 64,
+      "p": "1355110699",
+      "q": "1912764611",
+      "retry_times": 64
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "60127",
+      "div_q": "65293",
+      "elapsed_time": "70.359333ms",
+      "n_size": 64,
+      "p": "2502846503",
+      "q": "2517045151",
+      "retry_times": 267
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "37409",
+      "div_q": "37897",
+      "elapsed_time": "26.408458ms",
+      "n_size": 64,
+      "p": "926321659",
+      "q": "36760091",
+      "retry_times": 101
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "50441",
+      "div_q": "47881",
+      "elapsed_time": "80.393125ms",
+      "n_size": 64,
+      "p": "2456375819",
+      "q": "2638338863",
+      "retry_times": 307
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "36467",
+      "div_q": "36787",
+      "elapsed_time": "143.164292ms",
+      "n_size": 64,
+      "p": "2135726323",
+      "q": "1720675139",
+      "retry_times": 538
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "53377",
+      "div_q": "38891",
+      "elapsed_time": "798.541µs",
+      "n_size": 64,
+      "p": "3083375783",
+      "q": "67903687",
+      "retry_times": 2
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "35023",
+      "div_q": "45659",
+      "elapsed_time": "10.467625ms",
+      "n_size": 64,
+      "p": "951434819",
+      "q": "2968656863",
+      "retry_times": 38
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "65413",
+      "div_q": "61933",
+      "elapsed_time": "39.412042ms",
+      "n_size": 64,
+      "p": "2412038963",
+      "q": "232991947",
+      "retry_times": 149
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "56417",
+      "div_q": "46219",
+      "elapsed_time": "113.666834ms",
+      "n_size": 64,
+      "p": "1987796579",
+      "q": "1154643059",
+      "retry_times": 424
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "43117",
+      "div_q": "38669",
+      "elapsed_time": "50.960375ms",
+      "n_size": 64,
+      "p": "1946905019",
+      "q": "2040563131",
+      "retry_times": 191
+    },
+    {
+      "alpha_size": 32,
+      "div_p": "42821",
+      "div_q": "41381",
+      "elapsed_time": "10.332917ms",
+      "n_size": 64,
+      "p": "2308822679",
+      "q": "1072181711",
+      "retry_times": 36
+    }
+  ]
+}

@@ -4,8 +4,7 @@ pub mod encoding;
 pub mod core;
 
 use std::borrow::Cow;
-
-pub use keygen::*;
+use serde::Serialize;
 pub use traits::*;
 pub use encoding::*;
 pub use crate::optimized_paillier::core::*;
@@ -14,7 +13,6 @@ use crate::BigInt;
 
 /// Main struct onto which most operations are added.
 pub struct OptimizedPaillier;
-
 // values to compute public and secret key
 pub struct NGen {
     pub alpha_size: usize, // bit size of alpha, generate random for encryption
@@ -26,6 +24,8 @@ pub struct NGen {
 }
 
 // public key
+#[derive(Serialize)]
+
 pub struct EncryptionKey {
     pub alpha_size: usize, // bit size of alpha
     pub n: BigInt, // n = p * q
@@ -35,7 +35,11 @@ pub struct EncryptionKey {
 }
 
 // secret key
+#[derive(Serialize)]
+
 pub struct DecryptionKey {
+    pub p: BigInt, // prime, for fast decryption (CRT)
+    pub q: BigInt, // prime, for fast decryption (CRT)
     pub alpha: BigInt, // alpha = div_p * div_q
     pub n: BigInt, // n = p * q
     pub nn: BigInt, // nn = n * n
@@ -52,3 +56,10 @@ pub struct RawPlaintext<'b>(pub Cow<'b, BigInt>);
 /// Used mostly for internal purposes and advanced use-cases.
 #[derive(Clone, Debug, PartialEq)]
 pub struct RawCiphertext<'b>(pub Cow<'b, BigInt>);
+
+pub struct PrecomputeTable {
+    pow_size: usize,
+    block_size: usize,
+    modulo: BigInt,
+    table: Vec<Vec<BigInt>>,
+}
