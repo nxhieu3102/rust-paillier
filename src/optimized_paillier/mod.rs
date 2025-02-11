@@ -1,19 +1,27 @@
 pub mod keygen;
 pub mod traits;
 pub mod encoding;
-pub mod core;
+pub mod serialize;
+mod encryption_key;
+mod decryption_key;
+mod precomputeTable;
+mod utils;
+mod ngen;
+mod test;
+mod primesample;
 
 use std::borrow::Cow;
+use curv::BigInt;
 use serde::Serialize;
 pub use traits::*;
 pub use encoding::*;
-pub use crate::optimized_paillier::core::*;
+pub use crate::optimized_paillier::serialize::*;
 
-use crate::BigInt;
 
 /// Main struct onto which most operations are added.
 pub struct OptimizedPaillier;
 // values to compute public and secret key
+#[derive(Clone)]
 pub struct NGen {
     pub alpha_size: usize, // bit size of alpha, generate random for encryption
     pub n: BigInt, // n = p * q

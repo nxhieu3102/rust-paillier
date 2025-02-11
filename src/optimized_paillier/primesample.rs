@@ -1,7 +1,5 @@
-use crate::BigInt;
-
+use curv::BigInt;
 use curv::arithmetic::traits::*;
-
 pub trait PrimeSampable {
     fn sample_prime(bitsize: usize) -> Self;
     fn sample_safe_prime(bitsize: usize) -> Self;
