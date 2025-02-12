@@ -59,11 +59,40 @@ pub struct DecryptionKey {
 #[derive(Clone, Debug, PartialEq)]
 pub struct RawPlaintext<'b>(pub Cow<'b, BigInt>);
 
+impl<'b> RawPlaintext<'b> {
+    pub fn new(plaintext: BigInt) -> RawPlaintext<'b> {
+        RawPlaintext(Cow::Owned(plaintext))
+    }
+    
+    pub fn from_bigint(plaintext: BigInt) -> RawPlaintext<'b> {
+        RawPlaintext(Cow::Owned(plaintext))
+    }
+
+    pub fn to_bigint(&self) -> BigInt {
+        self.0.as_ref().clone()
+    }
+}
 /// Encrypted message without type information.
 ///
 /// Used mostly for internal purposes and advanced use-cases.
 #[derive(Clone, Debug, PartialEq)]
 pub struct RawCiphertext<'b>(pub Cow<'b, BigInt>);
+
+impl<'b> RawCiphertext<'b> {
+    pub fn new(ciphertext: BigInt) -> RawCiphertext<'b> {
+        RawCiphertext(Cow::Owned(ciphertext))
+    }
+
+    pub fn from_bigint(ciphertext: BigInt) -> RawCiphertext<'b> {
+        RawCiphertext(Cow::Owned(ciphertext))
+    }
+
+    pub fn to_bigint(&self) -> BigInt {
+        self.0.as_ref().clone()
+    }
+}
+
+
 
 pub struct PrecomputeTable {
     pow_size: usize,
