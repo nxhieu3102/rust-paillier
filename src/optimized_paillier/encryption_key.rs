@@ -98,3 +98,15 @@ for OptimizedPaillier
         )))
     }
 }
+
+impl Clone for EncryptionKey {
+    fn clone(&self) -> Self {
+        EncryptionKey {
+            alpha_size: self.alpha_size.clone(),
+            n: self.n.clone(),
+            nn: self.nn.clone(),
+            h: self.h.clone(),
+            hn: self.hn.clone(),
+        }
+    }
+}

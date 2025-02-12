@@ -96,3 +96,15 @@ where
     let u = (diff * m1inv.borrow()) % m2.borrow();
     x1.borrow() + (u * m1.borrow())
 }
+
+impl Clone for DecryptionKey {
+    fn clone(&self) -> Self {
+        DecryptionKey {
+            p: self.p.clone(),
+            q: self.q.clone(),
+            alpha: self.alpha.clone(),
+            n: self.n.clone(),
+            nn: self.nn.clone(),
+        }
+    }
+}

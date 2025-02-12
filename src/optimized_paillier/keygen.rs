@@ -10,7 +10,7 @@ use crate::optimized_paillier::primesample::{are_all_primes, check_coprime, Prim
 
 
 impl KeyGeneration<NGen> for OptimizedPaillier {
-    fn ngen_with_modulus_size(mut n_bit_length: usize,mut  alpha_bit_length: usize) -> NGen {
+    fn ngen_with_modulus_size(mut n_bit_length: usize, mut alpha_bit_length: usize) -> NGen {
         loop {
             let div_p = BigInt::sample_prime(alpha_bit_length / 2);
             let div_q = BigInt::sample_prime(alpha_bit_length / 2);

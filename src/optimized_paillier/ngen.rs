@@ -8,7 +8,7 @@ impl NGen {
         let nn: BigInt = &self.n * &self.n;
 
         let alpha = &self.div_p * &self.div_q;
-        let beta = (&self.p - 1) * (&self.q - 1) / (4 * &self.div_p * &self.div_q);
+        let beta: BigInt = (&self.p - 1) * (&self.q - 1) / (4 * &self.div_p * &self.div_q);
 
         let y;
         // TODO: limit loop time
