@@ -161,7 +161,7 @@ mod tests {
         let other_div_q = BigInt::from(19u64);
 
         // Construct p and q: p = 2 * div_p * other_div_p + 1
-        let p = BigInt::from(2u64) * &div_p * &other_div_p + 1u64;
+        let p: BigInt = BigInt::from(2u64) * &div_p * &other_div_p + 1u64;
         let q = BigInt::from(2u64) * &div_q * &other_div_q + 1u64;
 
         // Test find_divisors
