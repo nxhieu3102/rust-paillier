@@ -108,3 +108,16 @@ impl Clone for DecryptionKey {
         }
     }
 }
+
+impl DecryptionKey {
+    pub fn new(p: BigInt, q: BigInt, alpha: BigInt, n: BigInt) -> Self {
+        let nn: BigInt = n.clone() * n.clone();
+        DecryptionKey {
+            p,
+            q,
+            alpha,
+            n,
+            nn,
+        }
+    }
+}

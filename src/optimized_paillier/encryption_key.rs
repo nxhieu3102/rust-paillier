@@ -110,3 +110,15 @@ impl Clone for EncryptionKey {
         }
     }
 }
+
+impl EncryptionKey {
+    pub fn new(alpha_size: usize, n: BigInt, h: BigInt, hn: BigInt) -> Self {
+        EncryptionKey {
+            alpha_size,
+            n: n.clone(),
+            nn: n.clone() * n.clone(),
+            h: h.clone(),
+            hn: hn.clone(),
+        }
+    }
+}
