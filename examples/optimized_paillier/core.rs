@@ -1,4 +1,4 @@
-use kzen_paillier::BigInt;
+use curv::BigInt;
 use kzen_paillier::optimized_paillier::*;
 
 fn main() {

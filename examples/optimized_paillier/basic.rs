@@ -4,7 +4,6 @@ mod server;
 mod client;
 
 use serde_json::json;
-use wasm_bindgen::JsValue;
 use kzen_paillier::optimized_paillier::*;
 
 fn main() {

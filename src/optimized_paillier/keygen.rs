@@ -8,17 +8,6 @@ use serde::Serialize; // To enable serialization for structs
 use serde_json::{self, Value, Map};
 use crate::optimized_paillier::primesample::{are_all_primes, check_coprime, PrimeSampable};
 
-#[derive(Serialize)] // Make the struct serializable to JSON
-struct OutputData {
-    retry_times: usize,
-    elapsed_time: String,
-    p: String,
-    q: String,
-    div_p: String,
-    div_q: String,
-    alpha_size: usize,
-    n_size: usize,
-}
 
 impl KeyGeneration<NGen> for OptimizedPaillier {
     fn ngen_with_modulus_size(mut n_bit_length: usize,mut  alpha_bit_length: usize) -> NGen {

@@ -5,7 +5,7 @@ use crate::optimized_paillier::{DecryptionKey, EncryptionKey, NGen};
 impl NGen {
     /// Generate default encryption and decryption keys from NGen
     pub fn keys(&self) -> (EncryptionKey, DecryptionKey) {
-        let nn = &self.n * &self.n;
+        let nn: BigInt = &self.n * &self.n;
 
         let alpha = &self.div_p * &self.div_q;
         let beta = (&self.p - 1) * (&self.q - 1) / (4 * &self.div_p * &self.div_q);
