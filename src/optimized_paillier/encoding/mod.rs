@@ -10,7 +10,7 @@ use curv::BigInt;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EncodedCiphertext<T> {
     // #[serde(with = "crate::serialize::bigint")]
-    raw: BigInt,
-    components: usize,
-    _phantom: PhantomData<T>,
+    pub raw: BigInt,
+    pub components: usize,
+    pub _phantom: PhantomData<T>,
 }

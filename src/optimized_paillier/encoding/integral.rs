@@ -12,7 +12,7 @@ where
     for<'p, 'c> Self: Encrypt<EK, RawPlaintext<'p>, RawCiphertext<'c>>,
 {
     fn encrypt(ek: &EK, m: u64) -> EncodedCiphertext<u64> {
-        let c = Self::encrypt(ek, RawPlaintext::from(BigInt::from(m)));
+        let c: RawCiphertext<'_> = Self::encrypt(ek, RawPlaintext::from(BigInt::from(m)));
         EncodedCiphertext {
             raw: c.into(),
             components: 1,
