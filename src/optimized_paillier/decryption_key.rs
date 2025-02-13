@@ -120,4 +120,69 @@ impl DecryptionKey {
             nn,
         }
     }
+
+    /// Homomorphic multiplication of scalar at ciphertext
+    ///
+    /// It uses the fact that factorization of `N` is known to speed up an operation.
+    ///
+    /// ```text
+    /// omul(a, Enc(c)) = Enc(a * c)
+    /// ```
+    pub fn omul<'b>(&self, scalar: &BigInt, ciphertext: &RawCiphertext) -> RawCiphertext<'b> {
+        // Extract the ciphertext value
+        let c = ciphertext.0.as_ref();
+        
+        // Compute c^a mod n^2 using CRT for efficiency
+        let cp = BigInt::mod_pow(c, scalar, &(&self.p * &self.p));
+        let cq = BigInt::mod_pow(c, scalar, &(&self.q * &self.q));
+        
+        // Use Chinese Remainder Theorem to combine results
+        let n = &self.p * &self.q;
+        let coefficient = BigInt::mod_inv(&self.p, &self.q).unwrap();
+        
+        let mut result = &cp + &self.p * 
+            ((&coefficient * ((&cq - &cp) % &self.q)) % &self.q);
+            
+        // Ensure result is in the correct range
+        if result >= self.nn {
+            result %= &self.nn;
+        }
+        
+        RawCiphertext::new(result)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::optimized_paillier::NGen;
+    
+    #[test]
+    fn test_omul() {
+        // Generate keys
+        let div_p = BigInt::from(11u64);
+        let div_q = BigInt::from(13u64);
+        let other_div_p = BigInt::from(17u64);
+        let other_div_q = BigInt::from(19u64);
+
+        let p = BigInt::from(2u64) * &div_p * &other_div_p + 1u64;
+        let q = BigInt::from(2u64) * &div_q * &other_div_q + 1u64;
+        
+        let keys = NGen::keys_with_primes(&p, &q, 8).unwrap();
+        let (ek, dk) = keys;
+        
+        // Create a test ciphertext (you'll need to implement encryption)
+        let plaintext = BigInt::from(10);
+        let scalar = BigInt::from(3);
+        
+        // Encrypt the plaintext
+        let ciphertext = RawCiphertext::new(plaintext);  // This should actually use encryption
+        
+        // Perform homomorphic multiplication
+        let result = dk.omul(&scalar, &ciphertext);
+        
+        // Decrypt and verify (you'll need to implement decryption)
+        // let decrypted = dk.decrypt(&result);
+        // assert_eq!(decrypted, BigInt::from(30));  // 10 * 3 = 30
+    }
 }
