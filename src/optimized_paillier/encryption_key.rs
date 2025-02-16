@@ -2,6 +2,7 @@ use std::borrow::Cow;
 use std::borrow::Borrow;
 use curv::arithmetic::Modulo;
 use curv::BigInt;
+use curv::arithmetic::{Integer, One, Samplable, Zero};
 use crate::optimized_paillier::{Add, Encrypt, EncryptWithPrecomputeTable, EncryptionKey, Mul, OptimizedPaillier, PowWithPrecomputeTable, PrecomputeTable, RawCiphertext, RawPlaintext};
 use crate::optimized_paillier::utils::Randomness;
 
@@ -120,5 +121,60 @@ impl EncryptionKey {
             h: h.clone(),
             hn: hn.clone(),
         }
+    }
+
+    /// Generate an encryption key from modulus n and alpha size
+    pub fn from_n(n: BigInt, alpha_size: usize) -> Self {
+        let nn = &n * &n;
+        
+        // Find suitable y that is coprime with n
+        let y;
+        loop {
+            let random = BigInt::sample_below(&n);
+            if random.gcd(&n) == BigInt::one() {
+                y = random;
+                break;
+            }
+        }
+        // Calculate beta = phi(n)/(4*alpha) where phi(n) = (p-1)(q-1)
+        // Since we don't know p and q, we use y to generate h
+
+        let h = BigInt::mod_pow(&y, &BigInt::from(2u64), &n);
+        let h_clone = h.clone();  // Clone h before moving it
+        
+        EncryptionKey {
+            alpha_size,
+            n: n.clone(),
+            nn: nn.clone(),
+            h,
+            hn: BigInt::mod_pow(&h_clone, &n, &nn),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_encryption_key_generation() {
+        // Create test primes for n
+        let p = BigInt::from(11u64);
+        let q = BigInt::from(13u64);
+        let n = &p * &q;
+        
+        let ek = EncryptionKey::from_n(n.clone(), 8);
+        
+        // Basic validation
+        assert_eq!(ek.n, n);
+        assert_eq!(ek.nn, &n * &n);
+        assert_eq!(ek.alpha_size, 8);
+        
+        // Verify h is in the correct range
+        assert!(ek.h < n);
+        assert!(ek.h > BigInt::zero());
+        
+        // Verify hn is correctly computed
+        assert_eq!(ek.hn, BigInt::mod_pow(&ek.h, &n, &ek.nn));
     }
 }
