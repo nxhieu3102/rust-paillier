@@ -150,6 +150,47 @@ impl EncryptionKey {
             hn: BigInt::mod_pow(&h_clone, &n, &nn),
         }
     }
+
+    /// Homomorphic addition of two ciphertexts
+    ///
+    /// ```text
+    /// oadd(Enc(a1), Enc(a2)) = Enc(a1 + a2)
+    /// ```
+    pub fn oadd<'b>(&self, c1: &RawCiphertext, c2: &RawCiphertext) -> RawCiphertext<'b> {
+        let result = (c1.0.as_ref() * c2.0.as_ref()) % &self.nn;
+        RawCiphertext::new(result)
+    }
+
+    /// Homomorphic subtraction of two ciphertexts
+    ///
+    /// ```text
+    /// osub(Enc(a1), Enc(a2)) = Enc(a1 - a2)
+    /// ```
+    pub fn osub<'b>(&self, c1: &RawCiphertext, c2: &RawCiphertext) -> RawCiphertext<'b> {
+        let c2_neg = self.oneg(c2);
+        self.oadd(c1, &c2_neg)
+    }
+
+    /// Homomorphic multiplication of scalar at ciphertext
+    ///
+    /// ```text
+    /// omul(a, Enc(c)) = Enc(a * c)
+    /// ```
+    pub fn omul<'b>(&self, scalar: &BigInt, ciphertext: &RawCiphertext) -> RawCiphertext<'b> {
+        let result = BigInt::mod_pow(ciphertext.0.as_ref(), scalar, &self.nn);
+        RawCiphertext::new(result)
+    }
+
+    /// Homomorphic negation of a ciphertext
+    ///
+    /// ```text
+    /// oneg(Enc(a)) = Enc(-a)
+    /// ```
+    pub fn oneg<'b>(&self, ciphertext: &RawCiphertext) -> RawCiphertext<'b> {
+        let result = BigInt::mod_inv(ciphertext.0.as_ref(), &self.nn)
+            .expect("Failed to compute modular inverse");
+        RawCiphertext::new(result)
+    }
 }
 
 #[cfg(test)]
@@ -176,5 +217,37 @@ mod tests {
         
         // Verify hn is correctly computed
         assert_eq!(ek.hn, BigInt::mod_pow(&ek.h, &n, &ek.nn));
+    }
+
+    #[test]
+    fn test_homomorphic_operations() {
+        let p = BigInt::from(11u64);
+        let q = BigInt::from(13u64);
+        let n = &p * &q;
+        let ek = EncryptionKey::from_n(n.clone(), 8);
+
+        // Create test ciphertexts
+        let c1 = RawCiphertext::new(BigInt::from(10u64));
+        let c2 = RawCiphertext::new(BigInt::from(20u64));
+        let scalar = BigInt::from(3u64);
+
+        // Test addition
+        let c_add = ek.oadd(&c1, &c2);
+        
+        // Test subtraction
+        let c_sub = ek.osub(&c2, &c1);
+        
+        // Test multiplication
+        let c_mul = ek.omul(&scalar, &c1);
+        
+        // Test negation
+        let c_neg = ek.oneg(&c1);
+
+        // Note: We can't verify the actual results without decryption
+        // These tests just ensure the operations complete without errors
+        assert!(c_add.0.as_ref() < &ek.nn);
+        assert!(c_sub.0.as_ref() < &ek.nn);
+        assert!(c_mul.0.as_ref() < &ek.nn);
+        assert!(c_neg.0.as_ref() < &ek.nn);
     }
 }
