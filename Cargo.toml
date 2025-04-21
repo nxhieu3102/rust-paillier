@@ -10,7 +10,7 @@ keywords = ["paillier", "homomorphic", "encryption", "zero-knowledge", "cryptoag
 
 
 [dependencies]
-redis = "0.29.5"
+redis = "0.20"
 rayon = "1.1"
 serde = { version = "1.0", features = ["derive"] }
 curv-kzen = { git = "https://github.com/nxhieu3102/curv-kzen"}
