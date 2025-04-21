@@ -26,7 +26,7 @@ serde-wasm-bindgen = "0.4"
 console_error_panic_hook = "0.1"
 instant = "0.1.2"
 rug = "1.27.0"
-thiserror = "1.0.69"
+thiserror = "1"
 
 #[replace]
 #"getrandom:0.1.16" = { git = "https://github.com/rust-lang/crates.io-index#getrandom@0.2.15", features = ["js", "js-sys"] }
